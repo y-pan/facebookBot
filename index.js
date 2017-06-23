@@ -5,9 +5,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 
-// my Vars and functions
-const Secret = require('./config/secret');          // Secret Vars
-const Vars = require('./config/vars');        // Vars Vars
+// my vars and functions
+const secret = require('./config/secret');          // secret vars
+const vars = require('./config/vars');        // vars vars
 //const Lib = require('./lib/lib');                   // javascript Library, to keep index.js neat and nice
 
 
@@ -29,7 +29,7 @@ app.get('/', function(req, res){
 
 // Facebook
 app.get('/webhook/', function(req, res){
-    if(req.query['hub.verify_token'] === Secret.verify_token){
+    if(req.query['hub.verify_token'] === secret.verify_token){
         res.send(req.query['hub.challenge']); // good
     }
     res.send("Wrong token");
@@ -42,12 +42,10 @@ app.post('/webhook/', (req, res)=>{
         let event = messaging_events[i];
         let sender = event.sender.id;
 
-        // ____________________>>>>>>>>>
         if(event.message && event.message.text){
             let text = event.message.text;
             sendText(sener, "Text echo: " + text.substring(0,100));
         }
-        // ____________________<<<<<<<<<
         
     }
     res.sendStatus(200);
@@ -59,7 +57,7 @@ function sendText(sender, text){
 
     request({
         url:"https://graph.facebook.com/v2.6/me/messages",
-        qs:{access_token : Secret.access_token},
+        qs:{access_token : secret.access_token},
         method:"POST",
         json: {
             recipient: {id: sender},
