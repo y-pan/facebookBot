@@ -37,7 +37,15 @@ app.post('/webhook/', (req, res)=>{
         let sender = event.sender.id;
         if(event.message && event.message.text){
             let text = event.message.text;
-            sendText(sender, "Text echo: " + text.substring(0, 100));
+
+            // logic apply here for what is the sender request, and what to response
+            if(text.includes("offer")) {
+                sendText(sender, "Here are the offer available near your location: " + "\n   1. Go on a TTC bus and sing a song loud enough!" + "\n   2. Go to the Centennial library and borrow 100 books and read every single words in 1 hour!");
+                
+            }else{
+                sendText(sender, "What do you mean by: " + text.substring(0, 100) + "?");
+            }
+            
         }
     }
     res.sendStatus(200);
