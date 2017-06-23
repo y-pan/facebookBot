@@ -1,5 +1,7 @@
 'use strict'
 
+const secret = require('./config/secret');
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
@@ -21,7 +23,7 @@ app.get('/', function(req, res){
 
 // Facebook
 app.get('/webhook/', function(req, res){
-    if(req.query['hub.verify_token' === "icentennial"]){
+    if(req.query['hub.verify_token'] === secret.verify_token){
         res.send(req.query['hub.challenge']); // good
     }
     res.send("Wrong token");
