@@ -47,27 +47,47 @@ app.post('/webhook/', (req, res)=>{
             let text = event.message.text;
 
             // logic apply here for what is the sender request, and what to response
-            Lib.decideMessage(sender, text);
-            /*
+            //Lib.decideMessage(sender, text);
+            
             if(text.includes("offer")) {
-                Lib.sendText(sender, "Here are the offer available near your location: " + "\n   1. Go on a TTC bus and sing a song loud enough!" + "\n   2. Go to the Centennial Library and borrow 100 books and read every single words in 1 hour!");
+                sendText(sender, "Here are the offer available near your location: " + "\n   1. Go on a TTC bus and sing a song loud enough!" + "\n   2. Go to the Centennial Library and borrow 100 books and read every single words in 1 hour!");
                 
             }else{
-                Lib.sendText(sender, "What do you mean by: " + text.substring(0, 100) + "?");
-            }*/
+                sendText(sender, "What do you mean by: " + text.substring(0, 100) + "?");
+            }
         }
         // ____________________>>>>>>>>>
+        /*
         if(event.postback){
             let text = JSON.stringify(event.postback);
             Lib.decideMessage(sender, text);
             continue;
-        }
+        }*/
     }
     res.sendStatus(200);
 });
 
 
+function sendText(sender, text){
+    let messageData = {text: text}
+    //sendRequest(sender, messageData);
 
+    request({
+        url:"https://graph.facebook.com/v2.6/me/messages",
+        qs:{access_token : secret.access_token},
+        method:"POST",
+        json: {
+            recipient: {id: sender},
+            message: messageData
+        }
+    }, (error, response, body)=>{
+        if(error){
+            console.log("sending error")
+        }else if(response.body.error){
+            console.log("response body error");
+        }
+    });
+}
 
 
 
