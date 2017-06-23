@@ -31,7 +31,7 @@ app.get('/webhook/', function(req, res){
 
 // Here bot reply message to sender
 app.post('/webhook/', (req, res)=>{
-    let messaging_events = req.body.entry[0].messaging_events;
+    let messaging_events = req.body.entry[0].messaging;
     for(let i=0; i< messaging_events.length; i++){
         let event = messaging_events[i];
         let sender = event.sender.id;
@@ -52,7 +52,7 @@ function sendText(sender, text){
         qs:{access_token : secret.access_token},
         method:"POST",
         json: {
-            receipt: {id: sender},
+            recipient: {id: sender},
             message: messageData
         }
     }, (error, response, body)=>{
