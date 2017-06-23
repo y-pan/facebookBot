@@ -8,7 +8,7 @@ const request = require('request');
 // my Vars and functions
 const Secret = require('./config/secret');          // Secret Vars
 const Vars = require('./config/vars');        // Vars Vars
-const Lib = require('./lib/lib');                   // javascript Library, to keep index.js neat and nice
+//const Lib = require('./lib/lib');                   // javascript Library, to keep index.js neat and nice
 
 
 
@@ -35,7 +35,7 @@ app.get('/webhook/', function(req, res){
     res.send("Wrong token");
 });
 
-// Here bot reply message to sender
+// Here bot reply message to sender on facebook/messager
 app.post('/webhook/', (req, res)=>{
     let messaging_events = req.body.entry[0].messaging;
     for(let i=0; i< messaging_events.length; i++){
@@ -45,24 +45,10 @@ app.post('/webhook/', (req, res)=>{
         // ____________________>>>>>>>>>
         if(event.message && event.message.text){
             let text = event.message.text;
-
-            // logic apply here for what is the sender request, and what to response
-            //Lib.decideMessage(sender, text);
-            
-            if(text.includes("offer")) {
-                sendText(sender, "Here are the offer available near your location: " + "\n   1. Go on a TTC bus and sing a song loud enough!" + "\n   2. Go to the Centennial Library and borrow 100 books and read every single words in 1 hour!");
-                
-            }else{
-                sendText(sender, "What do you mean by: " + text.substring(0, 100) + "?");
-            }
+            sendText(sener, "Text echo: " + text.substring(0,100));
         }
-        // ____________________>>>>>>>>>
-        /*
-        if(event.postback){
-            let text = JSON.stringify(event.postback);
-            Lib.decideMessage(sender, text);
-            continue;
-        }*/
+        // ____________________<<<<<<<<<
+        
     }
     res.sendStatus(200);
 });
@@ -70,11 +56,10 @@ app.post('/webhook/', (req, res)=>{
 
 function sendText(sender, text){
     let messageData = {text: text}
-    //sendRequest(sender, messageData);
 
     request({
         url:"https://graph.facebook.com/v2.6/me/messages",
-        qs:{access_token : secret.access_token},
+        qs:{access_token : Secret.access_token},
         method:"POST",
         json: {
             recipient: {id: sender},
