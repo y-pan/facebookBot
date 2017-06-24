@@ -39,16 +39,15 @@ app.post('/webhook/', (req, res)=>{
         let event = messaging_events[i];
         let sender = event.sender.id;
 
-        if(event.message && event.message.text){
-            if(event.postback){
-                let text = JSON.stringify(event.postback.payload);
-                lib.decideMessage(sender, text, true);
-                continue;
-            }else{
-                lib.decideMessage(sender, event.message.text, false);
-            }
-        }
+        lib.sendText(sender, "event="+JSON.stringify(event));
 
+        if(event.postback){
+            let text = JSON.stringify(event.postback.payload);
+            lib.decideMessage(sender, text, true);
+            
+        }else if(event.message && event.message.text){
+            lib.decideMessage(sender, event.message.text, false);
+        }
         
     }
     res.sendStatus(200);
