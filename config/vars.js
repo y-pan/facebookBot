@@ -39,10 +39,8 @@ module.exports.level0 = {
     menus:[
         { "type":"postback", "title":"menu1", "payload":"1" },
         { "type":"postback", "title":"menu2", "payload":"2" },
-        { "type":"postback", "title":"menu3", "payload":"3" },
-        { "type":"postback", "title":"menu4", "payload":"4" },
-        { "type":"postback", "title":"menu5", "payload":"5" },
-        { "type":"postback", "title":"menu6", "payload":"6" }
+        { "type":"postback", "title":"menu3", "payload":"3" }
+
     ]
 }
 module.exports.level1 = {
