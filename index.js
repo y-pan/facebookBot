@@ -6,7 +6,7 @@ const request = require('request');
 // my vars and functions
 const secret = require('./config/secret');          // secret vars
 const vars = require('./config/vars');        // vars vars
-
+const lib = require('./lib/lib');               // function lib
 
 
 const app = express();
@@ -41,14 +41,14 @@ app.post('/webhook/', (req, res)=>{
 
         if(event.message && event.message.text){
             let text = event.message.text;
-            sendText(sender, "Text echo: " + text.substring(0,100));
+            lib.sendText(sender, "Text echo: " + text.substring(0,100));
         }
         
     }
     res.sendStatus(200);
 });
 
-
+/*
 function sendText(sender, text){
     let messageData = {text: text}
 
@@ -68,7 +68,7 @@ function sendText(sender, text){
         }
     });
 }
-
+*/
 
 
 
