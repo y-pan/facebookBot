@@ -9,9 +9,6 @@ const vars = require('./config/vars');        // vars vars
 const lib = require('./lib/lib1');               // function lib
 
 
-
-
-
 const app = express();
 
 app.set('port', (process.env.PORT || 5000));
@@ -43,53 +40,15 @@ app.post('/webhook/', (req, res)=>{
         let sender = event.sender.id;
 
         if(event.message && event.message.text){
-            //let text = event.message.text;
+
             lib.decideMessage(sender, event.message.text);
-            /*
-            text = text.toLowerCase();
-            
-            if(text.includes("offer") && text.includes("toronto"))
-            {
-                lib.sendText(sender, "Oh you said offer + toronto!!!");
-            }else if(text.includes("offer"))
-            {
-                lib.sendText(sender, "Oh you said offer!");
-            }else
-            {
-                lib.sendText(sender, "Text echo: " + text.substring(0,100));
-            }
-            */
         }
         
     }
     res.sendStatus(200);
 });
 
-/*
-function sendText(sender, text){
-    let messageData = {text: text};
-    lib.sendRequest(sender, messageData);
 
-}*/
-
-/*
-function sendRequest(sender, messageData){
-        request({
-        url:"https://graph.facebook.com/v2.6/me/messages",
-        qs:{access_token : secret.access_token},
-        method:"POST",
-        json: {
-            recipient: { id: sender},
-            message: messageData
-        }
-    }, (error, response, body)=>{
-        if(error){
-            console.log("sending error");
-        }else if(response.body.error){
-            console.log("response body error");
-        }
-    });
-}*/
 
 
 app.listen(app.get('port'), ()=>{
