@@ -44,19 +44,19 @@ app.post('/webhook/', (req, res)=>{
 
         if(event.message && event.message.text){
             let text = event.message.text;
-            sendText(sender, "Text echo: " + text.substring(0,100));
+            lib.sendText(sender, "Text echo: " + text.substring(0,100));
         }
         
     }
     res.sendStatus(200);
 });
 
-
+/*
 function sendText(sender, text){
     let messageData = {text: text};
     lib.sendRequest(sender, messageData);
 
-}
+}*/
 
 /*
 function sendRequest(sender, messageData){
