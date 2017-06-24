@@ -4,4 +4,4 @@ git.exe add .
 git.exe commit -m "%*"
 git.exe push heroku master
 echo "======"
-pause
+exit /b
