@@ -8,8 +8,6 @@ const secret = require('./config/secret');          // secret vars
 const vars = require('./config/vars');        // vars vars
 const lib = require('./lib/lib1');               // function lib
 
-const restify = require('restify');
-const builder = require('builder');
 
 const app = express();
 
