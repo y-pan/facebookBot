@@ -40,10 +40,14 @@ app.post('/webhook/', (req, res)=>{
         let sender = event.sender.id;
 
         if(event.message && event.message.text){
-
             lib.decideMessage(sender, event.message.text);
         }
-        
+
+        if(event.postback){
+            let text = JSON.stringify(event.postback);
+            lib.decideMessage(sender, text);
+            continue;
+        }
     }
     res.sendStatus(200);
 });
