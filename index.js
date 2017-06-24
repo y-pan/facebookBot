@@ -6,7 +6,10 @@ const request = require('request');
 // my vars and functions
 const secret = require('./config/secret');          // secret vars
 const vars = require('./config/vars');        // vars vars
-const lib = require('./lib/lib');               // function lib
+const lib = require('./lib/lib1');               // function lib
+
+
+
 
 
 const app = express();
@@ -51,10 +54,11 @@ app.post('/webhook/', (req, res)=>{
 
 function sendText(sender, text){
     let messageData = {text: text};
-    sendRequest(sender, messageData);
+    lib.sendRequest(sender, messageData);
 
 }
 
+/*
 function sendRequest(sender, messageData){
         request({
         url:"https://graph.facebook.com/v2.6/me/messages",
@@ -71,7 +75,7 @@ function sendRequest(sender, messageData){
             console.log("response body error");
         }
     });
-}
+}*/
 
 
 app.listen(app.get('port'), ()=>{
