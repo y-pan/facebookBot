@@ -35,7 +35,7 @@ app.get('/webhook/', function(req, res){
 
 // Here bot reply message to sender on facebook/messager
 app.post('/webhook/', (req, res)=>{
-    /*
+
     var data = req.body;
 
     if(data.object === 'page'){
@@ -51,9 +51,9 @@ app.post('/webhook/', (req, res)=>{
 
         res.sendStatus(200);
     }
-    */
 
     ///////////////
+/*
     let messaging_events = req.body.entry[0].messaging;
     for(let i=0; i< messaging_events.length; i++){
         let event = messaging_events[i];
@@ -70,13 +70,13 @@ app.post('/webhook/', (req, res)=>{
         
     }
     res.sendStatus(200);
+*/
 });
 
-/*
+
 function receivedMessage(event){
     console.log("Message data: ", event.message);
 }
-*/
 
 app.listen(app.get('port'), ()=>{
     console.log("running: port", app.get('port'));
