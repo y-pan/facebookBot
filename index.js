@@ -43,7 +43,9 @@ app.post('/webhook/', (req, res)=>{
         let sender = event.sender.id;
 
         if(event.message && event.message.text){
-            let text = event.message.text;
+            //let text = event.message.text;
+            lib.decideMessage(sender, event.message.text);
+            /*
             text = text.toLowerCase();
             
             if(text.includes("offer") && text.includes("toronto"))
@@ -56,7 +58,7 @@ app.post('/webhook/', (req, res)=>{
             {
                 lib.sendText(sender, "Text echo: " + text.substring(0,100));
             }
-            
+            */
         }
         
     }
