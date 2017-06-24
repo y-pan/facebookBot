@@ -32,7 +32,7 @@ module.exports.offerMenus= {
     offerMenu7:"offerMenu7",
     offerMenu7_1:"offerMenu7_1",
     offerMenu7_2:"offerMenu7_2",
-    offerMenu7_3:"offerMenu7_3",
+    offerMenu7_3:"offerMenu7_3"
 }
 module.exports.level0 = {
     level:0,
@@ -42,7 +42,7 @@ module.exports.level0 = {
         { title:"menu3", payload:3 },
         { title:"menu4", payload:4 },
         { title:"menu5", payload:5 },
-        { title:"menu6", payload:6 },
+        { title:"menu6", payload:6 }
     ]
 }
 module.exports.level1 = {
@@ -53,7 +53,7 @@ module.exports.level1 = {
         { title:"menu1-3", payload:13 },
         { title:"menu1-4", payload:14 },
         { title:"menu1-5", payload:15 },
-        { title:"menu1-6", payload:16 },
+        { title:"menu1-6", payload:16 }
     ]
 }
 module.exports.level2 = {
@@ -64,7 +64,7 @@ module.exports.level2 = {
         { title:"menu2-3", payload:23 },
         { title:"menu2-4", payload:24 },
         { title:"menu2-5", payload:25 },
-        { title:"menu2-6", payload:26 },
+        { title:"menu2-6", payload:26 }
     ]
 }
 module.exports.level3 = {
@@ -75,7 +75,7 @@ module.exports.level3 = {
         { title:"menu3-3", payload:33 },
         { title:"menu3-4", payload:34 },
         { title:"menu3-5", payload:35 },
-        { title:"menu3-6", payload:36 },
+        { title:"menu3-6", payload:36 }
     ]
 }
 module.exports.level4 = {
@@ -86,7 +86,7 @@ module.exports.level4 = {
         { title:"menu4-3", payload:43 },
         { title:"menu4-4", payload:44 },
         { title:"menu4-5", payload:45 },
-        { title:"menu4-6", payload:46 },
+        { title:"menu4-6", payload:46 }
     ]
 }
 module.exports.level5 = {
@@ -97,7 +97,7 @@ module.exports.level5 = {
         { title:"menu5-3", payload:53 },
         { title:"menu5-4", payload:54 },
         { title:"menu5-5", payload:55 },
-        { title:"menu5-6", payload:56 },
+        { title:"menu5-6", payload:56 }
     ]
 }
 module.exports.level6 = {
@@ -108,7 +108,7 @@ module.exports.level6 = {
         { title:"menu6-3", payload:63 },
         { title:"menu6-4", payload:64 },
         { title:"menu6-5", payload:65 },
-        { title:"menu6-6", payload:66 },
+        { title:"menu6-6", payload:66 }
     ]
 }
 module.exports.level7 = {
@@ -119,6 +119,6 @@ module.exports.level7 = {
         { title:"menu7-3", payload:73 },
         { title:"menu7-4", payload:74 },
         { title:"menu7-5", payload:75 },
-        { title:"menu7-6", payload:76 },
+        { title:"menu7-6", payload:76 }
     ]
 }
