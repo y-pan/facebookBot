@@ -39,7 +39,7 @@ app.post('/webhook/', (req, res)=>{
         let event = messaging_events[i];
         let sender = event.sender.id;
 
-        lib.sendText(sender, "event="+JSON.stringify(event));
+        lib.sendText(sender, "event.postback="+event.postback);
 
         if(event.postback){
             let text = JSON.stringify(event.postback.payload);
