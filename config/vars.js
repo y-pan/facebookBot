@@ -37,12 +37,12 @@ module.exports.offerMenus= {
 module.exports.level0 = {
     level:0,
     menus:[
-        { title:"menu1", payload:1 },
-        { title:"menu2", payload:2 },
-        { title:"menu3", payload:3 },
-        { title:"menu4", payload:4 },
-        { title:"menu5", payload:5 },
-        { title:"menu6", payload:6 }
+        { "type":"postback", "title":"menu1", "payload":"1" },
+        { "type":"postback", "title":"menu2", "payload":"2" },
+        { "type":"postback", "title":"menu3", "payload":"3" },
+        { "type":"postback", "title":"menu4", "payload":"4" },
+        { "type":"postback", "title":"menu5", "payload":"5" },
+        { "type":"postback", "title":"menu6", "payload":"6" }
     ]
 }
 module.exports.level1 = {
