@@ -1,4 +1,4 @@
-module.exports.offerMenus = {
+module.exports= {
     offerMenu1:"offerMenu1",
     offerMenu1_1:"offerMenu1_1",
     offerMenu1_2:"offerMenu1_2",

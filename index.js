@@ -1,6 +1,4 @@
 'use strict'
-
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
@@ -8,7 +6,6 @@ const request = require('request');
 // my vars and functions
 const secret = require('./config/secret');          // secret vars
 const vars = require('./config/vars');        // vars vars
-//const Lib = require('./lib/lib');                   // javascript Library, to keep index.js neat and nice
 
 
 
@@ -32,7 +29,7 @@ app.get('/webhook/', function(req, res){
     if(req.query['hub.verify_token'] === secret.verify_token){
         res.send(req.query['hub.challenge']); // good
     }
-    res.send("Wrong token");
+    res.send("Wrong token ~~~~~");
 });
 
 // Here bot reply message to sender on facebook/messager
@@ -44,7 +41,7 @@ app.post('/webhook/', (req, res)=>{
 
         if(event.message && event.message.text){
             let text = event.message.text;
-            sendText(sener, "Text echo: " + text.substring(0,100));
+            sendText(sender, "Text echo: " + text.substring(0,100));
         }
         
     }
@@ -60,12 +57,12 @@ function sendText(sender, text){
         qs:{access_token : secret.access_token},
         method:"POST",
         json: {
-            recipient: {id: sender},
+            recipient: { id: sender},
             message: messageData
         }
     }, (error, response, body)=>{
         if(error){
-            console.log("sending error")
+            console.log("sending error");
         }else if(response.body.error){
             console.log("response body error");
         }
