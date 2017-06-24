@@ -41,18 +41,22 @@ app.post('/webhook/', (req, res)=>{
 
         if(event.message && event.message.text){
             let text = event.message.text;
-            lib.sendText(sender, "Text echo: " + text.substring(0,100));
+            sendText(sender, "Text echo: " + text.substring(0,100));
         }
         
     }
     res.sendStatus(200);
 });
 
-/*
-function sendText(sender, text){
-    let messageData = {text: text}
 
-    request({
+function sendText(sender, text){
+    let messageData = {text: text};
+    sendRequest(sender, messageData);
+
+}
+
+function sendRequest(sender, messageData){
+        request({
         url:"https://graph.facebook.com/v2.6/me/messages",
         qs:{access_token : secret.access_token},
         method:"POST",
@@ -68,8 +72,6 @@ function sendText(sender, text){
         }
     });
 }
-*/
-
 
 
 app.listen(app.get('port'), ()=>{
