@@ -35,11 +35,10 @@ app.get('/webhook/', function(req, res){
 // Here bot reply message to sender on facebook/messager
 app.post('/webhook/', (req, res)=>{
     let messaging_events = req.body.entry[0].messaging;
+    lib.sendText(sender, "messaging_events.length="+messaging_events.length);
     for(let i=0; i< messaging_events.length; i++){
         let event = messaging_events[i];
         let sender = event.sender.id;
-
-        lib.sendText(sender, "event.postback="+event.postback);
 
         if(event.postback){
             let text = JSON.stringify(event.postback.payload);
