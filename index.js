@@ -91,12 +91,14 @@ function receivedMessage(event) {
 
   if (messageText) {
             
-    if(messageText.includes("offer"))   // text-oriented
+    if(messageText.includes("offer"))   // text-oriented, to be put in a function to search keydb : {keywords: String, goto:String}, and use goto to find elements
     {
         sendTextMessage(senderID, "Requrest of Offers is under testing");
+
     }else if(messageText.includes("toronto"))
     {
-        sendTextMessage(senderID, "Toronto is under testing");
+        //sendTextMessage(senderID, "Requrest Toronto is under testing");
+        sendButtonMessage(senderID,"Response of tornto");
 
     }else{
         sendTextMessage(senderID, "Sorry, I don't understand that:",messageText.substring(0,100));
@@ -170,6 +172,29 @@ function sendTextMessage(recipientId, messageText) {
   };
   callSendAPI(messageData);
 }
+function sendButtonMessage(recipientId, messageText) {
+    var messageData = {   
+        recipient: { id: recipientId },
+        message: {
+            "attachment":{
+                "type":"template",
+                "payload":{
+                    "template_type":"button",
+                    "text":messageText,
+                    "buttons":[
+                        { type:"postback", title:"0->menu1", payload:1 },
+                        { type:"postback", title:"0->menu2", payload:2 },
+                        { type:"postback", title:"0->menu3", payload:3 }
+                    ]
+                }
+            }
+        }
+    }
+  callSendAPI(messageData);
+}
+
+
+
 
 function callSendAPI(messageData) {
   request({
