@@ -12,9 +12,9 @@ const app = express();
 app.set('port', (process.env.PORT || 5000));
 
 // Allow us to process the data
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.use(bodyParser.json());
 
 // routes
 app.get('/', function(req, res){
