@@ -6,12 +6,9 @@ const request = require('request');
 // my vars and functions
 const secret = require('./config/secret');          // secret vars
 const vars = require('./config/vars');        // vars vars
-const lib = require('./lib/lib1');               // function lib
-
-let isdone=false;
+const lib = require('./lib/lib2');               // function lib
 
 const app = express();
-
 app.set('port', (process.env.PORT || 5000));
 
 // Allow us to process the data
@@ -19,7 +16,6 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 // routes
-
 app.get('/', function(req, res){
     res.send('Hi I am a facebookbot');
 });
@@ -27,15 +23,16 @@ app.get('/', function(req, res){
 
 // Facebook
 app.get('/webhook/', function(req, res){
-    if(req.query['hub.verify_token'] === secret.verify_token){
-        res.send(req.query['hub.challenge']); // good
+    if(req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === secret.verify_token){
+        console.log("Validating webhook");
+        res.status(200).send(req.query['hub.challenge']); // good
     }
-    res.send("Wrong token ~~~~~");
+    console.error("Failed validation. Make sure the validation tokens match.");
+    res.sendStatus(403).send("Wrong token ~~~~~");
 });
 
 // Here bot reply message to sender on facebook/messager
 app.post('/webhook/', (req, res)=>{
-
     var data = req.body;
 
     if(data.object === 'page'){
@@ -43,9 +40,9 @@ app.post('/webhook/', (req, res)=>{
             var pageID = entry.id;
             var timeOfEvent = entry.time;
 
-            entry.message.forEach((ev)=>{
-                if(ev.message){ receivedMessage(ev);}
-                else{ console.log("Webhook received unknown event: ", ev); }
+            entry.message.forEach((event)=>{
+                if(evevent.message){ lib.receivedMessage(event);}
+                else{ console.log("Webhook received unknown event: ", event); }
             });
         });
 
@@ -74,9 +71,7 @@ app.post('/webhook/', (req, res)=>{
 });
 
 
-function receivedMessage(event){
-    console.log("Message data: ", event.message);
-}
+
 
 app.listen(app.get('port'), ()=>{
     console.log("running: port", app.get('port'));
