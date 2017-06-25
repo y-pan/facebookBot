@@ -78,11 +78,8 @@ function receivedMessage(event) {
   var recipientID = event.recipient.id;
   var timeOfMessage = event.timestamp;
   var message = event.message;
-
-  console.log("Received message for user %d and page %d at %d with message:", 
-    senderID, recipientID, timeOfMessage);
+  console.log("Received message for user %d and page %d at %d with message:", senderID, recipientID, timeOfMessage);
   console.log(JSON.stringify(message));
-
   var messageId = message.mid;
 
   // You may get a text or attachment but not both
@@ -90,11 +87,10 @@ function receivedMessage(event) {
   var messageAttachments = message.attachments;
 
   if (messageText) {
-            
     if(messageText.includes("offer"))   // text-oriented, to be put in a function to search keydb : {keywords: String, goto:String}, and use goto to find elements
     {
-        sendTextMessage(senderID, "Requrest of Offers is under testing");
-
+        //sendTextMessage(senderID, "Requrest of Offers is under testing");
+        sendButtonMessage(senderID,"Response of offer");
     }else if(messageText.includes("toronto"))
     {
         //sendTextMessage(senderID, "Requrest Toronto is under testing");
@@ -230,30 +226,26 @@ function receivedPostback(event) {
 
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
-  switch(payload){
-    case 0:
-    case '0':
-    case "0":
-    
-        sendTextMessage(senderID, "Postback called 0");
+  let tb = payload.substring(0, 2);
+  let id = payload.substring(2);
+  switch(tb){
+    case 'te':
+        sendTextMessage(senderID, "Bot to look for collection="+tb+"."+id );
         sendButtonMessageOnPostback(senderID, "Postback called 0");
         break;
-    case 1:
-    case '1':
-    
-        sendTextMessage(senderID, "Postback called 1");
+    case 'bu':
+        sendTextMessage(senderID, "Bot to look for collection="+tb+"."+id );
+        
         sendButtonMessageOnPostback(senderID, "Postback called 1");
         
         break;
-    case 2:
-    case '2':
-    
-        sendTextMessage(senderID, "Postback called 2");
-        sendButtonMessageOnPostback(senderID, "Postback called 2");
+    case 'im':
+        sendTextMessage(senderID, "Bot to look for collection="+tb+"."+id );
         
         break;
-    case '3':
-        sendTextMessage(senderID, "Postback called 3");
+    case 'ge':
+        sendTextMessage(senderID, "Bot to look for collection="+tb+"."+id );
+        
         sendButtonMessageOnPostback(senderID, "Postback called 3");
     default:
         sendTextMessage(senderID, "Postback called : default");
