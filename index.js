@@ -33,24 +33,7 @@ app.get('/webhook/', function(req, res){
 
 // Here bot reply message to sender on facebook/messager
 app.post('/webhook/', (req, res)=>{
-/*
-    let data = req.body;
 
-    if(data.object === 'page'){
-        data.entry.forEach((entry)=>{
-            let pageID = entry.id;
-            let timeOfEvent = entry.time;
-
-            entry.message.forEach((event)=>{
-                if(evevent.message){ lib.receivedMessage(event);}
-                else{ console.log("Webhook received unknown event: ", event); }
-            });
-        });
-
-        res.sendStatus(200);
-    }
-*/
-    ///////////////
     let data = req.body;
 
     if(data.object === 'page'){
@@ -60,13 +43,13 @@ app.post('/webhook/', (req, res)=>{
         //    let timeOfEvent = entry.time;
 
         //    entry.message.forEach((event)=>{
-            console.log("######req.body######",req.body);
+            console.log("######req.body######",JSON.stringify(req.body);
             data.entry[0].messaging.forEach((event)=>{
                 let sender = event.sender.id;
                 //console.log(pageID +"(p)=?(e)" +sender);
-                console.log("!!!1.event???",event);
-                console.log("!!!2.event.message???",event.message);
-                console.log("!!!3.event.message.text???",event.message.text);
+                console.log("===1.event===",JSON.stringify(event));
+                console.log("===2.event.message===",JSON.stringify(event.message));
+                console.log("===3.event.message.text===",JSON.stringify(event.message.text));
                 if(event.message && event.message.text){
                     lib.decideMessage(sender, event.message.text, false);
                 }
