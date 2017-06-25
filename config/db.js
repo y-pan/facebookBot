@@ -1,12 +1,4 @@
-module.exports.message_data_type = {
-    text:0,button:1,gif:2,audio:3,video:4,file:5,
-    generic:6,receipt:7,quick_reply:8,read_receipt:9,typing_on:10,
-    typing_off:11,acount_linking:12,message_attachment:13
-}
-
-module.exports.generic_elemetns = [
-
-]
+// simulate mongodb, will be replaced
 // text collection
 module.exports.te=[
     {
@@ -33,6 +25,23 @@ module.exports.te=[
         id:'5',
         data:'This is te5'
     }
+    ,{
+        id:'6',
+        data:'This is te6'
+    }
+    ,{
+        id:'7',
+        data:'This is te7'
+    }
+    ,{
+        id:'8',
+        data:'This is te8'
+    }
+    ,{
+        id:'9',
+        data:'This is te9'
+    }
+    
 ]
 
 
@@ -67,3 +76,4 @@ module.exports.bu= [
             { type:"postback", title:"see text8", payload:"te8" }]
     }
 ]
+

@@ -7,6 +7,7 @@ const request = require('request');
 const secret = require('./config/secret');          // secret vars
 const vars = require('./config/vars');              // vars (general config vars)
 const lib = require('./lib/lib1');                  // function lib: manipulating arrays, objects, values
+const db = require('./config/db');  // simulate mongodb for now
 
 const app = express();
 app.set('port', (process.env.PORT || 5000));
@@ -162,6 +163,15 @@ function sendGenericMessage(recipientId, messageText) {
   callSendAPI(messageData);
 }
 
+function getTeById(id, callback){
+    let data;
+    db.te.forEach((item)=>{
+        if(item.id == id) data=item;
+        break;
+    });
+    callback(data);
+}
+
 function sendTextMessage(recipientId, messageText) {
   var messageData = {   recipient: { id: recipientId },
                         message: { text: messageText }
@@ -188,7 +198,26 @@ function sendButtonMessage(recipientId, messageText) {
     }
   callSendAPI(messageData);
 }
-
+function sendButtonMessageOnPostback(recipientId, messageText) {
+    var messageData = {   
+        recipient: { id: recipientId },
+        message: {
+            "attachment":{
+                "type":"template",
+                "payload":{
+                    "template_type":"button",
+                    "text":messageText,
+                    "buttons":[
+                        { type:"postback", title:"1->menu1", payload:"bu4" },
+                        { type:"postback", title:"1->menu2", payload:"bu5" },
+                        { type:"postback", title:"1->menu3", payload:"bu6" }
+                    ]
+                }
+            }
+        }
+    }
+  callSendAPI(messageData);
+}
 
 
 
@@ -224,14 +253,16 @@ function receivedPostback(event) {
   console.log("Received postback for user %d and page %d with payload '%s' " + 
     "at %d", senderID, recipientID, payload, timeOfPostback);
 
-  // When a postback is called, we'll send a message back to the sender to 
-  // let them know it was successful
-  let tb = payload.substring(0, 2);
-  let id = payload.substring(2);
+
+  let tb = payload.substring(0, 2); // db collection(table) name
+  let id = payload.substring(2);    // id in the collection
   switch(tb){
     case "te":
         sendTextMessage(senderID, "Bot to look for collection="+tb+"."+id );
-        sendButtonMessageOnPostback(senderID, "Postback called 0");
+        getTeById(id,(text)=>{
+            sendTextMessage(senderID, text);
+
+        })
         break;
     case "bu":
         sendTextMessage(senderID, "Bot to look for collection="+tb+"."+id );
@@ -255,23 +286,3 @@ function receivedPostback(event) {
   
 }
 
-function sendButtonMessageOnPostback(recipientId, messageText) {
-    var messageData = {   
-        recipient: { id: recipientId },
-        message: {
-            "attachment":{
-                "type":"template",
-                "payload":{
-                    "template_type":"button",
-                    "text":messageText,
-                    "buttons":[
-                        { type:"postback", title:"1->menu1", payload:"bu4" },
-                        { type:"postback", title:"1->menu2", payload:"bu5" },
-                        { type:"postback", title:"1->menu3", payload:"bu6" }
-                    ]
-                }
-            }
-        }
-    }
-  callSendAPI(messageData);
-}
