@@ -50,9 +50,9 @@ module.exports.bu= [
     { 
         id:'0',
         data:[
-            { type:"postback", title:"open button1", payload:"bu1" },
-            { type:"postback", title:"open button2", payload:"bu2" },
-            { type:"postback", title:"open button3", payload:"bu3" }]
+            { type:"postback", title:"open button1", payload:"te1" },
+            { type:"postback", title:"open button2", payload:"te2" },
+            { type:"postback", title:"open button3", payload:"te3" }]
     }
     ,{ 
         id:'1',
