@@ -231,5 +231,34 @@ function receivedPostback(event) {
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
   sendTextMessage(senderID, "Postback called: " + payload);
+  processPostback(payload,(messageData)=>{
+      sendButtonMessage(senderID,)
+  })
+}
 
+function processPostback(event, callback){
+    let messageData=null;
+    switch(event.postback.payload){
+        case 1:
+            messageData = {   
+                recipient: { id: event.recipient.id },
+                message: {
+                    "attachment":{
+                        "type":"template",
+                        "payload":{
+                            "template_type":"button",
+                            "text":messageText,
+                            "buttons":[
+                                { type:"postback", title:"1->menu4", payload:4 },
+                                { type:"postback", title:"1->menu5", payload:5 },
+                                { type:"postback", title:"1->menu6", payload:6 }
+                            ]
+                        }
+                    }
+                }
+            }
+        break;
+        default: break;
+    }
+    callback(messageData);
 }
