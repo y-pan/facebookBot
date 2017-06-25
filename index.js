@@ -101,7 +101,7 @@ function receivedMessage(event) {
         sendButtonMessage(senderID,"Response of tornto");
 
     }else{
-        sendTextMessage(senderID, "Sorry, I don't understand that:",messageText.substring(0,100));
+        sendTextMessage(senderID, "Sorry, I don't understand that:" + messageText.substring(0,100));
     }
 
     /*
@@ -115,7 +115,7 @@ function receivedMessage(event) {
         sendTextMessage(senderID, messageText);
   }*/
   } else if (messageAttachments) {  /**attachemnt type of message */
-    sendTextMessage(senderID, "Message with attachment received, need to implement to store it in db (url) and server (actual file)");
+    sendTextMessage(senderID, "Message with attachment received && Function on developing: store it in db (url) and server (actual file)");
   }
 }
 
@@ -230,5 +230,6 @@ function receivedPostback(event) {
 
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
-  sendTextMessage(senderID, "Postback called");
+  sendTextMessage(senderID, "Postback called: " + payload);
+
 }
