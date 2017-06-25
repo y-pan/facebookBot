@@ -13,6 +13,7 @@ app.set('port', (process.env.PORT || 5000));
 
 // Allow us to process the data
 app.use(bodyParser.urlencoded({extended: false}));
+
 app.use(bodyParser.json());
 
 // routes
@@ -43,7 +44,7 @@ app.post('/webhook/', (req, res)=>{
         //    let timeOfEvent = entry.time;
 
         //    entry.message.forEach((event)=>{
-            console.log("######req.body######",JSON.stringify(req.body);
+            console.log("######req.body######",JSON.stringify(req.body));
             data.entry[0].messaging.forEach((event)=>{
                 let sender = event.sender.id;
                 //console.log(pageID +"(p)=?(e)" +sender);
