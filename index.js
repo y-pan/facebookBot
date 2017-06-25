@@ -166,8 +166,7 @@ function sendGenericMessage(recipientId, messageText) {
 function getTeById(id, callback){
     let data;
     db.te.forEach((item)=>{
-        if(item.id == id) data=item;
-        break;
+        if(item.id == id)  {data=item; break;}
     });
     callback(data);
 }
