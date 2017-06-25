@@ -143,7 +143,7 @@ function sendButtonMessage(recipientId, messageText, buttons) {
 
 function reply_receivedMessage(event, dataString){
     let tb = dataString.substring(0,2);
-    let ids = dataString.substring(2).split(vars.delim);
+    let ids = dataString.substring(2);
     
     switch(tb){
         case "te":  // assume "te" (text type) always be single
@@ -152,14 +152,13 @@ function reply_receivedMessage(event, dataString){
             })
             break;
         case "bu":  // bu can be multiple: "bu1,2,3"
-            sendTextMessage(event.sender.id, "Oops, still under developing in receivedPostback() for other tb type");
+            //sendTextMessage(event.sender.id, "Oops, still under developing in receivedPostback() for other tb type");
             lib.retrieveBuById(ids,(buttons)=>{
                 if(buttons.length <= 0){
                     sendTextMessage(event.sender.id,"Oops, can't find any buttons~~~");
                 }else{
                     sendButtonMessage(event.sender.id,"Please select one:",buttons);
                 }
-                
             });
             
             
@@ -178,16 +177,22 @@ function receivedPostback(event) {
   console.log("Received postback for user %d and page %d with payload '%s' " + "at %d", senderID, recipientID, payload, timeOfPostback);
 
   let tb = payload.substring(0, 2); // db collection(table) name
-  let id = payload.substring(2);    // id in the collection
+  let ids = payload.substring(2);    // id in the collection
   switch(tb){
     case "te":
-        lib.retrieveTeById(id,(text)=>{
+        lib.retrieveTeById(ids,(text)=>{
             sendTextMessage(senderID, text);
         })
         break;
     case "bu":
-        sendTextMessage(event.sender.id, "Oops, still under developing in receivedPostback() for other tb type");
-        sendButtonMessage(senderID, "Postback called 1");
+        lib.retrieveBuById(ids,(buttons)=>{
+            if(buttons.length <= 0){
+                sendTextMessage(event.sender.id,"Oops, can't find any buttons~~~");
+            }else{
+                sendButtonMessage(event.sender.id,"Please select one:",buttons);
+            }
+        });
+
         break;
     case "im":
         sendTextMessage(event.sender.id, "Oops, still under developing in receivedPostback() for other tb type");
