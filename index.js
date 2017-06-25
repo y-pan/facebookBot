@@ -63,7 +63,9 @@ app.post('/webhook/', (req, res)=>{
             data.entry[0].messaging.forEach((event)=>{
                 let sender = event.sender.id;
                 //console.log(pageID +"(p)=?(e)" +sender);
-                console.log("!!!postback???",event.postback);
+                console.log("!!!event???",event);
+                console.log("!!!event.message???",event.message);
+                console.log("!!!event.message.text???",event.message.text);
                 if(event.message && event.message.text){
                     lib.decideMessage(sender, event.message.text, false);
                 }
