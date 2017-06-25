@@ -188,9 +188,9 @@ function sendButtonMessage(recipientId, messageText) {
                     "template_type":"button",
                     "text":messageText,
                     "buttons":[
-                        { type:"postback", title:"0->menu1", payload:"bu1" },
-                        { type:"postback", title:"0->menu2", payload:"bu2" },
-                        { type:"postback", title:"0->menu3", payload:"bu3" }
+                        { type:"postback", title:"0->menu1", payload:"te1" },
+                        { type:"postback", title:"0->menu2", payload:"te2" },
+                        { type:"postback", title:"0->menu3", payload:"te3" }
                     ]
                 }
             }
@@ -208,9 +208,9 @@ function sendButtonMessageOnPostback(recipientId, messageText) {
                     "template_type":"button",
                     "text":messageText,
                     "buttons":[
-                        { type:"postback", title:"1->menu1", payload:"bu4" },
-                        { type:"postback", title:"1->menu2", payload:"bu5" },
-                        { type:"postback", title:"1->menu3", payload:"bu6" }
+                        { type:"postback", title:"1->menu1", payload:"te4" },
+                        { type:"postback", title:"1->menu2", payload:"te5" },
+                        { type:"postback", title:"1->menu3", payload:"te6" }
                     ]
                 }
             }
