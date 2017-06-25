@@ -34,28 +34,40 @@ app.get('/webhook/', function(req, res){
     res.sendStatus(403).send("Wrong token ~~~~~");
 });
 
-// Here bot reply message to sender on facebook/messager
-app.post('/webhook/', (req, res)=>{
+app.post('/webhook', function (req, res) {
+  var data = req.body;
 
-    req.body.entry[0].messaging.forEach(function(event){
-        let sender = event.sender.id;
-        //console.log(pageID +"(p)=?(e)" +sender);
-        console.log("===1.event===",JSON.stringify(event));
-        console.log("===2.event.message===",JSON.stringify(event.message));
-        console.log("===3.event.message.text===",JSON.stringify(event.message.text));
-        if(event.message && event.message.text){
-            decideMessage(sender, event.message.text, false);
+  // Make sure this is a page subscription
+  if (data.object === 'page') {
+
+    // Iterate over each entry - there may be multiple if batched
+    data.entry.forEach(function(entry) {
+      var pageID = entry.id;
+      var timeOfEvent = entry.time;
+
+      // Iterate over each messaging event
+      entry.messaging.forEach(function(event) {
+        if (event.message) {
+          receivedMessage(event);
+        } else {
+          console.log("Webhook received unknown event: ", event);
         }
+      });
+    });
 
-        if(event.postback){
-            let text = JSON.stringify(event.postback.payload);
-            decideMessage(sender, text, true);
-        }
-    })
-
+    // Assume all went well.
+    //
+    // You must send back a 200, within 20 seconds, to let us know
+    // you've successfully received the callback. Otherwise, the request
+    // will time out and we will keep trying to resend.
     res.sendStatus(200);
-
+  }
 });
+  
+function receivedMessage(event) {
+  // Putting a stub for now, we'll expand it in the following steps
+  console.log("Message data: ", event.message);
+}
 
 
 
@@ -64,94 +76,3 @@ app.listen(app.get('port'), ()=>{
     console.log("running: port", app.get('port'));
 });
 
-
-/**funcs
- * 
- */
-
-function decideMessage(sender, text, isPostback=false){
-    selfSender = sender;
-    text = text.toLowerCase();
-    if(!isPostback){
-        if(text.includes("offer"))
-        {
-            let triggerPayload='0';
-            sendText(sender, "Here are offers: ");
-            
-            getSelectionByTriggerPayload2temp(triggerPayload);
-            if(selfTemp == null){
-                sendText(sender, "No more buttons in collection");
-            }else{
-                sendButtonMessage(sender, "Choose one of those:",selfTemp);
-            }
-        }else if(text.includes('debug')){
-            sendText(sender, "debug4");
-        } else {
-            sendText(sender, "Sorry, I don't understand that");
-        }
-    }else{
-        let triggerPayload = text.toLowerCase();
-        sendText(sender, "From your selection(pload="+triggerPayload+"), we have:");
-        
-        getSelectionByTriggerPayload2temp(triggerPayload);
-        if(selfTemp == null){
-            sendText(sender, "No more buttons in collection");
-        }else{
-            sendButtonMessage(sender, "Choose one of those:",selfTemp);
-        }
-    }
-}
-
-function getSelectionByTriggerPayload2temp(triggerPayload){
-    selfTemp = null;
-    sendText(selfSender, "total:"+vars.collections.length);
-    for( let i=0; i<vars.collections.length; i++){
-        let c = vars.collections[i];
-
-        sendText(selfSender, "if "+c.triggerPayload+"="+triggerPayload+"?");
-        if(c.triggerPayload.toLowerCase() == triggerPayload.toLowerCase()){
-            selfTemp = c.data;
-            sendText(selfSender, "Yes=");
-            break;
-        }else{
-            sendText(selfSender, "thisNot=");
-        }
-    }
-}
-
-function sendButtonMessage (sender, text, buttons){
-    let messageData = {
-        "attachment":{
-            "type":"template",
-            "payload":{
-                "template_type":"button",
-                "text":text,
-                "buttons":buttons
-            }
-        }
-    }
-    sendRequest(sender, messageData);
-}
-
-function sendRequest(sender, messageData){
-        request({
-        url:secret.requestUri,
-        qs:{access_token : secret.access_token},
-        method:"POST",
-        json: {
-            recipient: { id: sender},
-            message: messageData
-        }
-    }, (error, response, body)=>{
-        if(error){
-            console.log("sending error");
-        }else if(response.body.error){
-            console.log("response body error");
-        }
-    });
-}
-
-function sendText(sender, text){
-    let messageData = {text: text};
-    sendRequest(sender, messageData);
-}
