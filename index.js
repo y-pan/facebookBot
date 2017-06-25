@@ -6,7 +6,7 @@ const request = require('request');
 // my vars and functions
 const secret = require('./config/secret');          // secret vars
 const vars = require('./config/vars');        // vars vars
-const lib = require('./lib/lib');               // function lib
+const lib = require('./lib/lib1');               // function lib
 
 const app = express();
 app.set('port', (process.env.PORT || 5000));
