@@ -74,6 +74,7 @@ app.listen(app.get('port'), ()=>{
  * 
  */
 
+
 function receivedMessage(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
@@ -88,9 +89,17 @@ function receivedMessage(event) {
   var messageAttachments = message.attachments;
 
   if (messageText) {
+    lib.recognizeText(messageText,(dataString)=>{
+        if(dataString == null){
+            sendTextMessage(senderID, "Sorry, I don't know what to do with: "+messageText.substring(0,100));
+        }else{
+            reply_receivedMessage(event, dataString); // general, like receivedPostback()
+        }
+    });
+
+/*
     if(messageText.includes("offer"))   // text-oriented, to be put in a function to search keydb : {keywords: String, goto:String}, and use goto to find elements
     {
-        //sendTextMessage(senderID, "Requrest of Offers is under testing");
         sendButtonMessage(senderID,"Response of offer");
     }else if(messageText.includes("toronto"))
     {
@@ -100,22 +109,113 @@ function receivedMessage(event) {
     }else{
         sendTextMessage(senderID, "Sorry, I don't understand this: "+messageText.substring(0,100));
     }
-
-    /*
-    switch (messageText) {          
-        case 'generic':    
-            sendGenericMessage(senderID);
-            break;
-        
-
-      default:
-        sendTextMessage(senderID, messageText);
-  }*/
+*/
   } else if (messageAttachments) {  /**attachemnt type of message */
     sendTextMessage(senderID, "Message with attachment received, need to implement to store it in db (url) and server (actual file)");
   }
 }
 
+
+
+
+function sendTextMessage(recipientId, messageText) {
+  var messageData = {   recipient: { id: recipientId },
+                        message: { text: messageText }
+  };
+  callSendAPI(messageData);
+}
+function sendButtonMessage(recipientId, messageText, triggerPayload=null) {
+    var messageData = {   
+        recipient: { id: recipientId },
+        message: {
+            "attachment":{
+                "type":"template",
+                "payload":{
+                    "template_type":"button",
+                    "text":messageText,
+                    "buttons":[
+                        { type:"postback", title:"0->menu1", payload:"te1" },
+                        { type:"postback", title:"0->menu2", payload:"te2" },
+                        { type:"postback", title:"0->menu3", payload:"te3" }
+                    ]
+                }
+            }
+        }
+    }
+  callSendAPI(messageData);
+}
+
+function reply_receivedMessage(event, dataString){
+    let dataArr = dataString.split(vars.delim);
+    let tb = dataArr[0].substring(0,2);
+    let id;
+    if(dataArr.length == 1){
+        id = dataArr[0].substring(2);
+        switch(tb){
+            case "te":
+            //sendTextMessage(senderID, "Bot to look for collection="+tb+"."+id );
+            lib.retrieveTeById(id,(text)=>{
+                sendTextMessage(event.sender.id, text);
+            })
+                break;
+            default:
+                sendTextMessage(event.sender.id, "Oops, still under developing in reply_receivedMessage() for other tb type");
+                break;
+        }
+    }
+}
+
+function receivedPostback(event) {
+  var senderID = event.sender.id;
+  var recipientID = event.recipient.id;
+  var timeOfPostback = event.timestamp;
+  var payload = event.postback.payload;
+  console.log("Received postback for user %d and page %d with payload '%s' " + "at %d", senderID, recipientID, payload, timeOfPostback);
+
+  let tb = payload.substring(0, 2); // db collection(table) name
+  let id = payload.substring(2);    // id in the collection
+  switch(tb){
+    case "te":
+        lib.retrieveTeById(id,(text)=>{
+            sendTextMessage(senderID, text);
+        })
+        break;
+    case "bu":
+        sendTextMessage(event.sender.id, "Oops, still under developing in receivedPostback() for other tb type");
+        sendButtonMessage(senderID, "Postback called 1");
+        break;
+    case "im":
+        sendTextMessage(event.sender.id, "Oops, still under developing in receivedPostback() for other tb type");
+        break;
+    case "ge":
+        sendTextMessage(event.sender.id, "Oops, still under developing in receivedPostback() for other tb type");
+        break;
+    default:
+        sendTextMessage(event.sender.id, "Oops, still under developing in receivedPostback() for other tb type");
+        break;
+  }
+}
+
+function callSendAPI(messageData) {
+  request({
+    uri: secret.requestUri,
+    qs: { access_token: secret.access_token },
+    method: 'POST',
+    json: messageData
+
+  }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var recipientId = body.recipient_id;
+      var messageId = body.message_id;
+      console.log("Successfully sent generic message with id %s to recipient %s", messageId, recipientId);
+    } else {
+      console.error("Unable to send message.");
+      console.error(response);
+      console.error(error);
+    }
+  });  
+}
+// not in use | to be changed
 function sendGenericMessage(recipientId, messageText) {
    // need function with callback to return generic elemetns (how to link different type of element together? like genericId? )
   var messageData = {
@@ -163,41 +263,17 @@ function sendGenericMessage(recipientId, messageText) {
   callSendAPI(messageData);
 }
 
+
+/*
 function retrieveTeById(id, callback){
     let text;
     for(let i=0; i< db.te.length; i++){
         if(db.te[i].id == id) {text=db.te[i].data; break;}
     }
-
     callback(text);
 }
-
-function sendTextMessage(recipientId, messageText) {
-  var messageData = {   recipient: { id: recipientId },
-                        message: { text: messageText }
-  };
-  callSendAPI(messageData);
-}
-function sendButtonMessage(recipientId, messageText) {
-    var messageData = {   
-        recipient: { id: recipientId },
-        message: {
-            "attachment":{
-                "type":"template",
-                "payload":{
-                    "template_type":"button",
-                    "text":messageText,
-                    "buttons":[
-                        { type:"postback", title:"0->menu1", payload:"te1" },
-                        { type:"postback", title:"0->menu2", payload:"te2" },
-                        { type:"postback", title:"0->menu3", payload:"te3" }
-                    ]
-                }
-            }
-        }
-    }
-  callSendAPI(messageData);
-}
+*/
+/*
 function sendButtonMessageOnPostback(recipientId, messageText) {
     var messageData = {   
         recipient: { id: recipientId },
@@ -218,70 +294,4 @@ function sendButtonMessageOnPostback(recipientId, messageText) {
     }
   callSendAPI(messageData);
 }
-
-
-
-function callSendAPI(messageData) {
-  request({
-    uri: secret.requestUri,
-    qs: { access_token: secret.access_token },
-    method: 'POST',
-    json: messageData
-
-  }, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      var recipientId = body.recipient_id;
-      var messageId = body.message_id;
-      console.log("Successfully sent generic message with id %s to recipient %s", messageId, recipientId);
-    } else {
-      console.error("Unable to send message.");
-      console.error(response);
-      console.error(error);
-    }
-  });  
-}
-
-function receivedPostback(event) {
-  var senderID = event.sender.id;
-  var recipientID = event.recipient.id;
-  var timeOfPostback = event.timestamp;
-
-  // The 'payload' param is a developer-defined field which is set in a postback 
-  // button for Structured Messages. 
-  var payload = event.postback.payload;
-
-  console.log("Received postback for user %d and page %d with payload '%s' " + 
-    "at %d", senderID, recipientID, payload, timeOfPostback);
-
-
-  let tb = payload.substring(0, 2); // db collection(table) name
-  let id = payload.substring(2);    // id in the collection
-  switch(tb){
-    case "te":
-        sendTextMessage(senderID, "Bot to look for collection="+tb+"."+id );
-        lib.retrieveTeById(id,(text)=>{
-            sendTextMessage(senderID, text);
-        })
-        break;
-    case "bu":
-        sendTextMessage(senderID, "Bot to look for collection="+tb+"."+id );
-        
-        sendButtonMessageOnPostback(senderID, "Postback called 1");
-        
-        break;
-    case "im":
-        sendTextMessage(senderID, "Bot to look for collection="+tb+"."+id );
-        
-        break;
-    case "ge":
-        sendTextMessage(senderID, "Bot to look for collection="+tb+"."+id );
-        sendButtonMessageOnPostback(senderID, "Postback called 3");
-        break;
-    default:
-        sendTextMessage(senderID, "Postback called : default="+tb+"."+id);
-        
-        break;
-  }
-  
-}
-
+*/
