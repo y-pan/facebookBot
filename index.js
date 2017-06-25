@@ -3,12 +3,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 
-// my vars and functions
+
 const secret = require('./config/secret');          // secret vars
-const vars = require('./config/vars');        // vars vars
-//const lib = require('./lib/lib1');               // function lib
-let selfSender;
-let selfTemp=null;
+const vars = require('./config/vars');              // vars (general config vars)
+const lib = require('./lib/lib1');                  // function lib: manipulating arrays, objects, values
 
 const app = express();
 app.set('port', (process.env.PORT || 5000));
@@ -17,7 +15,6 @@ app.set('port', (process.env.PORT || 5000));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-
 // routes
 app.get('/', function(req, res){
     res.send('Hi I am a facebookbot');
@@ -25,7 +22,7 @@ app.get('/', function(req, res){
 
 
 // Facebook
-app.get('/webhook/', function(req, res){
+app.get('/webhook', function(req, res){
     if(req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === secret.verify_token){
         console.log("Validating webhook");
         res.status(200).send(req.query['hub.challenge']); // good
@@ -51,7 +48,7 @@ app.post('/webhook', function (req, res) {
           receivedMessage(event);
         } else if(event.postback) {
             receivedPostback(event);
-        }else{
+        }else{   /*here to add more events */
             console.log("Webhook received unknown event: ", event);
         }
       });
@@ -59,16 +56,11 @@ app.post('/webhook', function (req, res) {
 
     // Assume all went well.
     //
-    // You must send back a 200, within 20 seconds, to let us know
-    // you've successfully received the callback. Otherwise, the request
+    // You must send back a 200, within 20 seconds. Otherwise, the request
     // will time out and we will keep trying to resend.
     res.sendStatus(200);
   }
 });
-  
-
-
-
 
 app.listen(app.get('port'), ()=>{
     console.log("running: port", app.get('port'));
@@ -77,8 +69,7 @@ app.listen(app.get('port'), ()=>{
 
 /**
  * 
- * funcssss
- * 
+ *  Here are functions of logic
  * 
  */
 
@@ -94,6 +85,7 @@ function receivedMessage(event) {
 
   var messageId = message.mid;
 
+  // You may get a text or attachment but not both
   var messageText = message.text;
   var messageAttachments = message.attachments;
 
@@ -101,7 +93,7 @@ function receivedMessage(event) {
 
     // If we receive a text message, check to see if it matches a keyword
     // and send back the example. Otherwise, just echo the text we received.
-    switch (messageText) {
+    switch (messageText) {    /**here to add different type of message, like button, .... */
       case 'generic':
         sendGenericMessage(senderID);
         break;
@@ -115,6 +107,7 @@ function receivedMessage(event) {
 }
 
 function sendGenericMessage(recipientId, messageText) {
+   // need function with callback to return generic elemetns (how to link different type of element together? like genericId? )
   var messageData = {
     recipient: {
       id: recipientId
@@ -157,26 +150,19 @@ function sendGenericMessage(recipientId, messageText) {
       }
     }
   };  
-
   callSendAPI(messageData);
 }
 
 function sendTextMessage(recipientId, messageText) {
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      text: messageText
-    }
+  var messageData = {   recipient: { id: recipientId },
+                        message: { text: messageText }
   };
-
   callSendAPI(messageData);
 }
 
 function callSendAPI(messageData) {
   request({
-    uri: 'https://graph.facebook.com/v2.6/me/messages',
+    uri: secret.requestUri,
     qs: { access_token: secret.access_token },
     method: 'POST',
     json: messageData
@@ -185,9 +171,7 @@ function callSendAPI(messageData) {
     if (!error && response.statusCode == 200) {
       var recipientId = body.recipient_id;
       var messageId = body.message_id;
-
-      console.log("Successfully sent generic message with id %s to recipient %s", 
-        messageId, recipientId);
+      console.log("Successfully sent generic message with id %s to recipient %s", messageId, recipientId);
     } else {
       console.error("Unable to send message.");
       console.error(response);

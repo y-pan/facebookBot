@@ -1,4 +1,16 @@
-module.exports.collections= [
+module.exports.MESSAGE_DATA_TYPE = {
+    TEXT:0,BUTTON:1,GIF:2,AUDIO:3,VIDEO:4,FILE:5,
+    GENERIC:6,RECEIPT:7,QUICK_REPLY:8,READ_RECEIPT:9,TYPING_ON:10,
+    TYPING_OFF:11,ACOUNT_LINKING:12,MESSAGE_ATTACHMENT:13
+}
+
+module.exports.GENERIC_ELEMETNS = [
+
+]
+
+
+
+module.exports.BUTTONS= [
     { 
         triggerPayload:'0',
         data:[
