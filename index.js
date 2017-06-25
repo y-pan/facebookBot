@@ -45,7 +45,7 @@ app.post('/webhook', function (req, res) {
       // Iterate over each messaging event
       entry.messaging.forEach(function(event) {
         if (event.message) {
-            receivedMessage(event);       // message type event is like : user type "offer", 
+          receivedMessage(event);       // message type event is like : user type "offer", 
         } else if(event.postback) {
             receivedPostback(event);   // postback type event is like : user click on button having payload
         }else{   /*here to add more events */
@@ -94,50 +94,14 @@ function receivedMessage(event) {
     if(messageText.includes("offer"))   // text-oriented, to be put in a function to search keydb : {keywords: String, goto:String}, and use goto to find elements
     {
         sendTextMessage(senderID, "Requrest of Offers is under testing");
-        lib.getMessageData(0,(msg)=>{
-
-            let messageData = {
-                recipient: { id: recipientId },
-                message:msg
-            }
-            callSendAPI(messageData);
-            
-        });
 
     }else if(messageText.includes("toronto"))
     {
-        sendTextMessage(senderID, "Requrest Toronto is under testing");
-          let messageData = {
-            recipient: {
-            id: recipientId
-            },
-            message: {
-            attachment: {
-                type: "template",
-                payload: {
-                template_type: "button",
-                text: "This is test text",
-                buttons:[{
-                    type: "web_url",
-                    url: "https://www.oculus.com/en-us/rift/",
-                    title: "Open Web URL"
-                }, {
-                    type: "postback",
-                    title: "Trigger Postback",
-                    payload: "DEVELOPER_DEFINED_PAYLOAD"
-                }, {
-                    type: "phone_number",
-                    title: "Call Phone Number",
-                    payload: "+16505551234"
-                }]
-                }
-            }
-            }
-        };  
-        callSendAPI(messageData);
+        //sendTextMessage(senderID, "Requrest Toronto is under testing");
+        sendButtonMessage(senderID,"Response of tornto");
 
     }else{
-        sendTextMessage(senderID, "Sorry, I don't understand that:" + messageText.substring(0,100));
+        sendTextMessage(senderID, "Sorry, I don't understand that:",messageText.substring(0,100));
     }
 
     /*
@@ -151,7 +115,7 @@ function receivedMessage(event) {
         sendTextMessage(senderID, messageText);
   }*/
   } else if (messageAttachments) {  /**attachemnt type of message */
-    sendTextMessage(senderID, "Message with attachment received && Function on developing: store it in db (url) and server (actual file)");
+    sendTextMessage(senderID, "Message with attachment received, need to implement to store it in db (url) and server (actual file)");
   }
 }
 
@@ -208,13 +172,23 @@ function sendTextMessage(recipientId, messageText) {
   };
   callSendAPI(messageData);
 }
-
-
-
-function sendButtonMessage(recipientId, msg) {
-    let messageData = {
+function sendButtonMessage(recipientId, messageText) {
+    var messageData = {   
         recipient: { id: recipientId },
-        message:msg
+        message: {
+            "attachment":{
+                "type":"template",
+                "payload":{
+                    "template_type":"button",
+                    "text":messageText,
+                    "buttons":[
+                        { type:"postback", title:"0->menu1", payload:1 },
+                        { type:"postback", title:"0->menu2", payload:2 },
+                        { type:"postback", title:"0->menu3", payload:3 }
+                    ]
+                }
+            }
+        }
     }
   callSendAPI(messageData);
 }
@@ -256,46 +230,5 @@ function receivedPostback(event) {
 
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
-  sendTextMessage(senderID, "Postback called: " + payload);
-  processPostback(event,(messageData)=>{
-      console.log("==== in callback send msgDAta=");
-      console.log(messageData);
-      lib.getMessageData(payload,recipientID,(messageData)=>{
-            sendButtonMessage(senderID, messageData);
-        })
-      
-  });
-}
-
-function processPostback(event, callback){
-    console.log("### postback ###");
-    console.log(JSON.stringify(event));
-    
-    let messageData=null;
-    switch(event.postback.payload){
-        case 1:
-        case "1":
-        case '1':
-            console.log("=== Yes and to prepare messageDAta ===")
-            messageData = {   
-                recipient: { id: event.recipient.id },
-                message: {
-                    "attachment":{
-                        "type":"template",
-                        "payload":{
-                            "template_type":"button",
-                            "text":"---messageText---",
-                            "buttons":[
-                                { type:"postback", title:"1->menu4", payload:4 },
-                                { type:"postback", title:"1->menu5", payload:5 },
-                                { type:"postback", title:"1->menu6", payload:6 }
-                            ]
-                        }
-                    }
-                }
-            }
-        break;
-        default: break;
-    }
-    callback(messageData);
+  sendTextMessage(senderID, "Postback called");
 }
