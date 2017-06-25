@@ -52,7 +52,11 @@ app.post('/webhook/', (req, res)=>{
 */
     ///////////////
     let data = req.body;
+    if(data.oject === 'page'){
+        console.log('!!!!!!!!!+++ page +++!!!!!!!!!!!!!!!!!!');
+    }
     let messaging_events = data.entry[0].messaging;
+ 
     for(let i=0; i< messaging_events.length; i++){
         let event = messaging_events[i];
         let sender = event.sender.id;
@@ -67,6 +71,25 @@ app.post('/webhook/', (req, res)=>{
         }
         
     }
+    /*
+    let data = req.body;
+    let messaging_events = data.entry[0].messaging;
+ 
+    for(let i=0; i< messaging_events.length; i++){
+        let event = messaging_events[i];
+        let sender = event.sender.id;
+
+        if(event.message && event.message.text){
+            lib.decideMessage(sender, event.message.text, false);
+        }
+
+        if(event.postback){
+            let text = JSON.stringify(event.postback.payload);
+            lib.decideMessage(sender, text, true);
+        }
+        
+    }
+    */
     res.sendStatus(200);
 
 });
