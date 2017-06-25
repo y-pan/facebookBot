@@ -52,13 +52,13 @@ app.post('/webhook/', (req, res)=>{
 */
     ///////////////
     let data = req.body;
-    if(data.oject === 'page'){
+    if(data.object === 'page'){
         console.log('!!!!!!!!!+++ page +++!!!!!!!!!!!!!!!!!!');
     }
+    console.log("data.object=",data.object);
     let messaging_events = data.entry[0].messaging;
  
-    for(let i=0; i< messaging_events.length; i++){
-        let event = messaging_events[i];
+    messaging_events.forEach((event)=>{
         let sender = event.sender.id;
 
         if(event.message && event.message.text){
@@ -69,8 +69,8 @@ app.post('/webhook/', (req, res)=>{
             let text = JSON.stringify(event.postback.payload);
             lib.decideMessage(sender, text, true);
         }
-        
-    }
+    });
+
     /*
     let data = req.body;
     let messaging_events = data.entry[0].messaging;
