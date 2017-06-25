@@ -229,26 +229,26 @@ function receivedPostback(event) {
   let tb = payload.substring(0, 2);
   let id = payload.substring(2);
   switch(tb){
-    case 'te':
+    case "te":
         sendTextMessage(senderID, "Bot to look for collection="+tb+"."+id );
         sendButtonMessageOnPostback(senderID, "Postback called 0");
         break;
-    case 'bu':
+    case "bu":
         sendTextMessage(senderID, "Bot to look for collection="+tb+"."+id );
         
         sendButtonMessageOnPostback(senderID, "Postback called 1");
         
         break;
-    case 'im':
+    case "im":
         sendTextMessage(senderID, "Bot to look for collection="+tb+"."+id );
         
         break;
-    case 'ge':
+    case "ge":
         sendTextMessage(senderID, "Bot to look for collection="+tb+"."+id );
-        
         sendButtonMessageOnPostback(senderID, "Postback called 3");
+        break;
     default:
-        sendTextMessage(senderID, "Postback called : default");
+        sendTextMessage(senderID, "Postback called : default="+tb+"."+id);
         
         break;
   }
