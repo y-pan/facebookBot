@@ -53,24 +53,25 @@ app.post('/webhook/', (req, res)=>{
     ///////////////
     let data = req.body;
     if(data.object === 'page'){
-        console.log('!!!!!!!!!+++ page +++!!!!!!!!!!!!!!!!!!');
+        data.entry.forEach((entry)=>{
+            let pageID = entry.id;
+            let timeOfEvent = entry.time;
+
+            entry.message.forEach((event)=>{
+                let sender = event.sender.id;
+                console.log(pageID +"(p)=?(e)" +sender);
+
+                if(event.message && event.message.text){
+                    lib.decideMessage(sender, event.message.text, false);
+                }
+
+                if(event.postback){
+                    let text = JSON.stringify(event.postback.payload);
+                    lib.decideMessage(sender, text, true);
+                }
+            })
+        });
     }
-    console.log("data.object=",data.object);
-    let messaging_events = data.entry[0].messaging;
- 
-    messaging_events.forEach((event)=>{
-        let sender = event.sender.id;
-
-        if(event.message && event.message.text){
-            lib.decideMessage(sender, event.message.text, false);
-        }
-
-        if(event.postback){
-            let text = JSON.stringify(event.postback.payload);
-            lib.decideMessage(sender, text, true);
-        }
-    });
-
     /*
     let data = req.body;
     let messaging_events = data.entry[0].messaging;
