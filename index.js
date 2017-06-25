@@ -232,15 +232,25 @@ function receivedPostback(event) {
   // let them know it was successful
   switch(payload){
     case 0:
+    case '0':
+    case "0":
+    
         sendTextMessage(senderID, "Postback called 0");
         break;
     case 1:
+    case '1':
+    
         sendTextMessage(senderID, "Postback called 1");
         break;
     case 2:
+    case '2':
+    
         sendTextMessage(senderID, "Postback called 2");
         break;
-    default:break;
+    default:
+        sendTextMessage(senderID, "Postback called : default");
+        
+        break;
   }
   
 }
