@@ -236,21 +236,50 @@ function receivedPostback(event) {
     case "0":
     
         sendTextMessage(senderID, "Postback called 0");
+        sendButtonMessageOnPostback(senderID, "Postback called 0");
         break;
     case 1:
     case '1':
     
         sendTextMessage(senderID, "Postback called 1");
+        sendButtonMessageOnPostback(senderID, "Postback called 1");
+        
         break;
     case 2:
     case '2':
     
         sendTextMessage(senderID, "Postback called 2");
+        sendButtonMessageOnPostback(senderID, "Postback called 2");
+        
         break;
+    case '3':
+        sendTextMessage(senderID, "Postback called 3");
+        sendButtonMessageOnPostback(senderID, "Postback called 3");
     default:
         sendTextMessage(senderID, "Postback called : default");
         
         break;
   }
   
+}
+
+function sendButtonMessageOnPostback(recipientId, messageText) {
+    var messageData = {   
+        recipient: { id: recipientId },
+        message: {
+            "attachment":{
+                "type":"template",
+                "payload":{
+                    "template_type":"button",
+                    "text":messageText,
+                    "buttons":[
+                        { type:"postback", title:"1->menu1", payload:1 },
+                        { type:"postback", title:"1->menu2", payload:2 },
+                        { type:"postback", title:"1->menu3", payload:3 }
+                    ]
+                }
+            }
+        }
+    }
+  callSendAPI(messageData);
 }
