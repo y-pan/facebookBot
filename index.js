@@ -164,11 +164,12 @@ function sendGenericMessage(recipientId, messageText) {
 }
 
 function getTeById(id, callback){
-    let data;
-    db.te.forEach((item)=>{
-        if(item.id == id)  {data=item; break;}
-    });
-    callback(data);
+    let text;
+    for(let i=0; i< db.te.length; i++){
+        if(db.te[i].id == id) {text=db.te[i].data; break;}
+    }
+
+    callback(text);
 }
 
 function sendTextMessage(recipientId, messageText) {
