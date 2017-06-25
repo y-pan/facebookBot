@@ -45,9 +45,9 @@ app.post('/webhook', function (req, res) {
       // Iterate over each messaging event
       entry.messaging.forEach(function(event) {
         if (event.message) {
-          receivedMessage(event);
+          receivedMessage(event);       // message type event is like : user type "offer", 
         } else if(event.postback) {
-            receivedPostback(event);
+            receivedPostback(event);   // postback type event is like : user click on button having payload
         }else{   /*here to add more events */
             console.log("Webhook received unknown event: ", event);
         }
@@ -86,23 +86,34 @@ function receivedMessage(event) {
   var messageId = message.mid;
 
   // You may get a text or attachment but not both
-  var messageText = message.text;
+  var messageText = message.text.toLowerCase();
   var messageAttachments = message.attachments;
 
   if (messageText) {
+            
+    if(messageText.includes("offer"))   // text-oriented
+    {
+        sendTextMessage(senderID, "Requrest of Offers is under testing");
+    }else if(messageText.includes("toronto"))
+    {
+        sendTextMessage(senderID, "Toronto is under testing");
 
-    // If we receive a text message, check to see if it matches a keyword
-    // and send back the example. Otherwise, just echo the text we received.
-    switch (messageText) {    /**here to add different type of message, like button, .... */
-      case 'generic':
-        sendGenericMessage(senderID);
-        break;
+    }else{
+        sendTextMessage(senderID, "Sorry, I don't understand that:",messageText.substring(0,100));
+    }
+
+    /*
+    switch (messageText) {          
+        case 'generic':    
+            sendGenericMessage(senderID);
+            break;
+        
 
       default:
         sendTextMessage(senderID, messageText);
-    }
-  } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
+  }*/
+  } else if (messageAttachments) {  /**attachemnt type of message */
+    sendTextMessage(senderID, "Message with attachment received, need to implement to store it in db (url) and server (actual file)");
   }
 }
 

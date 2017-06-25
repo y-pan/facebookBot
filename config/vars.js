@@ -1,16 +1,16 @@
-module.exports.MESSAGE_DATA_TYPE = {
-    TEXT:0,BUTTON:1,GIF:2,AUDIO:3,VIDEO:4,FILE:5,
-    GENERIC:6,RECEIPT:7,QUICK_REPLY:8,READ_RECEIPT:9,TYPING_ON:10,
-    TYPING_OFF:11,ACOUNT_LINKING:12,MESSAGE_ATTACHMENT:13
+module.exports.message_data_type = {
+    text:0,button:1,gif:2,audio:3,video:4,file:5,
+    generic:6,receipt:7,quick_reply:8,read_receipt:9,typing_on:10,
+    typing_off:11,acount_linking:12,message_attachment:13
 }
 
-module.exports.GENERIC_ELEMETNS = [
+module.exports.generic_elemetns = [
 
 ]
 
 
 
-module.exports.BUTTONS= [
+module.exports.buttons= [
     { 
         triggerPayload:'0',
         data:[
