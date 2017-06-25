@@ -94,18 +94,47 @@ function receivedMessage(event) {
     if(messageText.includes("offer"))   // text-oriented, to be put in a function to search keydb : {keywords: String, goto:String}, and use goto to find elements
     {
         sendTextMessage(senderID, "Requrest of Offers is under testing");
-        lib.getMessageData(0,recipientID,(messageData)=>{
-            console.log("~~~~~~~~~1 ");
+        lib.getMessageData(0,(msg)=>{
+
+            let messageData = {
+                recipient: { id: recipientId },
+                message:msg
+            }
             callSendAPI(messageData);
+            
         });
 
     }else if(messageText.includes("toronto"))
     {
         sendTextMessage(senderID, "Requrest Toronto is under testing");
-        lib.getMessageData(1,recipientID,(messageData)=>{
-            sendButtonMessage(senderID, messageData);
-        });
-        
+          let messageData = {
+            recipient: {
+            id: recipientId
+            },
+            message: {
+            attachment: {
+                type: "template",
+                payload: {
+                template_type: "button",
+                text: "This is test text",
+                buttons:[{
+                    type: "web_url",
+                    url: "https://www.oculus.com/en-us/rift/",
+                    title: "Open Web URL"
+                }, {
+                    type: "postback",
+                    title: "Trigger Postback",
+                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                }, {
+                    type: "phone_number",
+                    title: "Call Phone Number",
+                    payload: "+16505551234"
+                }]
+                }
+            }
+            }
+        };  
+        callSendAPI(messageData);
 
     }else{
         sendTextMessage(senderID, "Sorry, I don't understand that:" + messageText.substring(0,100));
@@ -182,8 +211,11 @@ function sendTextMessage(recipientId, messageText) {
 
 
 
-function sendButtonMessage(recipientId, messageData) {
-    
+function sendButtonMessage(recipientId, msg) {
+    let messageData = {
+        recipient: { id: recipientId },
+        message:msg
+    }
   callSendAPI(messageData);
 }
 
