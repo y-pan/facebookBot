@@ -33,12 +33,12 @@ app.get('/webhook/', function(req, res){
 
 // Here bot reply message to sender on facebook/messager
 app.post('/webhook/', (req, res)=>{
-    var data = req.body;
+    let data = req.body;
 
     if(data.object === 'page'){
         data.entry.forEach((entry)=>{
-            var pageID = entry.id;
-            var timeOfEvent = entry.time;
+            let pageID = entry.id;
+            let timeOfEvent = entry.time;
 
             entry.message.forEach((event)=>{
                 if(evevent.message){ lib.receivedMessage(event);}
