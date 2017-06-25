@@ -94,13 +94,17 @@ function receivedMessage(event) {
     if(messageText.includes("offer"))   // text-oriented, to be put in a function to search keydb : {keywords: String, goto:String}, and use goto to find elements
     {
         sendTextMessage(senderID, "Requrest of Offers is under testing");
+        lib.getMessageData(0,recipientID,(messageData)=>{
+            console.log("~~~~~~~~~1 ");
+            callSendAPI(messageData);
+        });
 
     }else if(messageText.includes("toronto"))
     {
-        //sendTextMessage(senderID, "Requrest Toronto is under testing");
-        lib.getMessageData(0,recipientID,(messageData)=>{
+        sendTextMessage(senderID, "Requrest Toronto is under testing");
+        lib.getMessageData(1,recipientID,(messageData)=>{
             sendButtonMessage(senderID, messageData);
-        })
+        });
         
 
     }else{
