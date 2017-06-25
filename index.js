@@ -230,5 +230,17 @@ function receivedPostback(event) {
 
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
-  sendTextMessage(senderID, "Postback called");
+  switch(payload){
+    case 0:
+        sendTextMessage(senderID, "Postback called 0");
+        break;
+    case 1:
+        sendTextMessage(senderID, "Postback called 1");
+        break;
+    case 2:
+        sendTextMessage(senderID, "Postback called 2");
+        break;
+    default:break;
+  }
+  
 }
