@@ -98,7 +98,7 @@ function receivedMessage(event) {
         sendButtonMessage(senderID,"Response of tornto");
 
     }else{
-        sendTextMessage(senderID, "Sorry, I don't understand that:",messageText.substring(0,100));
+        sendTextMessage(senderID, "Sorry, I don't understand this: "+messageText.substring(0,100));
     }
 
     /*
@@ -163,7 +163,7 @@ function sendGenericMessage(recipientId, messageText) {
   callSendAPI(messageData);
 }
 
-function getTeById(id, callback){
+function retrieveTeById(id, callback){
     let text;
     for(let i=0; i< db.te.length; i++){
         if(db.te[i].id == id) {text=db.te[i].data; break;}
@@ -259,9 +259,8 @@ function receivedPostback(event) {
   switch(tb){
     case "te":
         sendTextMessage(senderID, "Bot to look for collection="+tb+"."+id );
-        getTeById(id,(text)=>{
+        lib.retrieveTeById(id,(text)=>{
             sendTextMessage(senderID, text);
-
         })
         break;
     case "bu":
