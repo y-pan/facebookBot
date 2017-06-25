@@ -45,7 +45,7 @@ app.post('/webhook', function (req, res) {
       // Iterate over each messaging event
       entry.messaging.forEach(function(event) {
         if (event.message) {
-          receivedMessage(event);       // message type event is like : user type "offer", 
+            receivedMessage(event);       // message type event is like : user type "offer", 
         } else if(event.postback) {
             receivedPostback(event);   // postback type event is like : user click on button having payload
         }else{   /*here to add more events */
@@ -98,7 +98,10 @@ function receivedMessage(event) {
     }else if(messageText.includes("toronto"))
     {
         //sendTextMessage(senderID, "Requrest Toronto is under testing");
-        sendButtonMessage(senderID,"Response of tornto");
+        lib.getMessageData(0,recipientID,(messageData)=>{
+            sendButtonMessage(senderID, messageData);
+        })
+        
 
     }else{
         sendTextMessage(senderID, "Sorry, I don't understand that:" + messageText.substring(0,100));
@@ -172,24 +175,11 @@ function sendTextMessage(recipientId, messageText) {
   };
   callSendAPI(messageData);
 }
-function sendButtonMessage(recipientId, messageText) {
-    var messageData = {   
-        recipient: { id: recipientId },
-        message: {
-            "attachment":{
-                "type":"template",
-                "payload":{
-                    "template_type":"button",
-                    "text":messageText,
-                    "buttons":[
-                        { type:"postback", title:"0->menu1", payload:1 },
-                        { type:"postback", title:"0->menu2", payload:2 },
-                        { type:"postback", title:"0->menu3", payload:3 }
-                    ]
-                }
-            }
-        }
-    }
+
+
+
+function sendButtonMessage(recipientId, messageData) {
+    
   callSendAPI(messageData);
 }
 
@@ -232,7 +222,12 @@ function receivedPostback(event) {
   // let them know it was successful
   sendTextMessage(senderID, "Postback called: " + payload);
   processPostback(event,(messageData)=>{
-      sendButtonMessage(senderID, messageData);
+      console.log("==== in callback send msgDAta=");
+      console.log(messageData);
+      lib.getMessageData(payload,recipientID,(messageData)=>{
+            sendButtonMessage(senderID, messageData);
+        })
+      
   });
 }
 
@@ -245,7 +240,7 @@ function processPostback(event, callback){
         case 1:
         case "1":
         case '1':
-            
+            console.log("=== Yes and to prepare messageDAta ===")
             messageData = {   
                 recipient: { id: event.recipient.id },
                 message: {
