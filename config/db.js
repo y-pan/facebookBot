@@ -1,7 +1,7 @@
 // simulate mongodb, will be replaced
 module.exports.text2x = [
-    {from:'offer', to:"bu1,bu2,bu3"}
-    ,{from:'toronto', to:"bu4,bu14,bu24"}
+    {from:'offer', to:"bu1,2,3"}
+    ,{from:'toronto', to:"bu4,14,24"}
     ,{from:'markham', to:"te25"}
     ,{from:'walmart', to:"te26"}
     ,{from:'college', to:"te34"}

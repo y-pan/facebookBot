@@ -124,7 +124,7 @@ function sendTextMessage(recipientId, messageText) {
   };
   callSendAPI(messageData);
 }
-function sendButtonMessage(recipientId, messageText, triggerPayload=null) {
+function sendButtonMessage(recipientId, messageText, buttons) {
     var messageData = {   
         recipient: { id: recipientId },
         message: {
@@ -133,11 +133,7 @@ function sendButtonMessage(recipientId, messageText, triggerPayload=null) {
                 "payload":{
                     "template_type":"button",
                     "text":messageText,
-                    "buttons":[
-                        { type:"postback", title:"0->menu1", payload:"te1" },
-                        { type:"postback", title:"0->menu2", payload:"te2" },
-                        { type:"postback", title:"0->menu3", payload:"te3" }
-                    ]
+                    "buttons":buttons
                 }
             }
         }
@@ -146,22 +142,31 @@ function sendButtonMessage(recipientId, messageText, triggerPayload=null) {
 }
 
 function reply_receivedMessage(event, dataString){
-    let dataArr = dataString.split(vars.delim);
-    let tb = dataArr[0].substring(0,2);
-    let id;
-    if(dataArr.length == 1){
-        id = dataArr[0].substring(2);
-        switch(tb){
-            case "te":
-            //sendTextMessage(senderID, "Bot to look for collection="+tb+"."+id );
-            lib.retrieveTeById(id,(text)=>{
+    let tb = dataString.substring(0,2);
+    let ids = dataString.substring(2).split(vars.delim);
+    
+    switch(tb){
+        case "te":  // assume "te" (text type) always be single
+            lib.retrieveTeById(ids,(text)=>{
                 sendTextMessage(event.sender.id, text);
             })
-                break;
-            default:
-                sendTextMessage(event.sender.id, "Oops, still under developing in reply_receivedMessage() for other tb type");
-                break;
-        }
+            break;
+        case "bu":  // bu can be multiple: "bu1,2,3"
+            sendTextMessage(event.sender.id, "Oops, still under developing in receivedPostback() for other tb type");
+            lib.retrieveBuById(ids,(buttons)=>{
+                if(buttons.length <= 0){
+                    sendTextMessage(event.sender.id,"Oops, can't find any buttons~~~");
+                }else{
+                    sendButtonMessage(event.sender.id,"Please select one:",buttons);
+                }
+                
+            });
+            
+            
+            break;
+        default:
+            sendTextMessage(event.sender.id, "Oops, still under developing in reply_receivedMessage() for other tb type");
+            break;
     }
 }
 
