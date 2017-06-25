@@ -1,4 +1,4 @@
-'use strict'
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
@@ -34,7 +34,24 @@ app.get('/webhook/', function(req, res){
 
 // Here bot reply message to sender on facebook/messager
 app.post('/webhook/', (req, res)=>{
+event.message
+    req.body.entry[0].messaging.forEach(function(event){
+        let sender = event.sender.id;
+        //console.log(pageID +"(p)=?(e)" +sender);
+        console.log("===1.event===",JSON.stringify(event));
+        console.log("===2.event.message===",JSON.stringify(event.message));
+        console.log("===3.event.message.text===",JSON.stringify(event.message.text));
+        if(event.message && event.message.text){
+            lib.decideMessage(sender, event.message.text, false);
+        }
 
+        if(event.postback){
+            let text = JSON.stringify(event.postback.payload);
+            lib.decideMessage(sender, text, true);
+        }
+    })
+
+/*
     let data = req.body;
 
     if(data.object === 'page'){
@@ -61,7 +78,7 @@ app.post('/webhook/', (req, res)=>{
                 }
             })
         //});
-    }
+    }*/
     /*
     let data = req.body;
     let messaging_events = data.entry[0].messaging;
