@@ -232,7 +232,7 @@ function receivedPostback(event) {
   // let them know it was successful
   sendTextMessage(senderID, "Postback called: " + payload);
   processPostback(payload,(messageData)=>{
-      sendButtonMessage(senderID,)
+      sendButtonMessage(senderID, messageData);
   })
 }
 
