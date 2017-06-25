@@ -60,12 +60,13 @@ app.post('/webhook/', (req, res)=>{
         //    let timeOfEvent = entry.time;
 
         //    entry.message.forEach((event)=>{
+            console.log("######req.body######",req.body);
             data.entry[0].messaging.forEach((event)=>{
                 let sender = event.sender.id;
                 //console.log(pageID +"(p)=?(e)" +sender);
-                console.log("!!!event???",event);
-                console.log("!!!event.message???",event.message);
-                console.log("!!!event.message.text???",event.message.text);
+                console.log("!!!1.event???",event);
+                console.log("!!!2.event.message???",event.message);
+                console.log("!!!3.event.message.text???",event.message.text);
                 if(event.message && event.message.text){
                     lib.decideMessage(sender, event.message.text, false);
                 }
