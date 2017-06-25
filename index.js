@@ -6,7 +6,7 @@ const request = require('request');
 // my vars and functions
 const secret = require('./config/secret');          // secret vars
 const vars = require('./config/vars');        // vars vars
-const lib = require('./lib/lib2');               // function lib
+const lib = require('./lib/lib');               // function lib
 
 const app = express();
 app.set('port', (process.env.PORT || 5000));
@@ -33,6 +33,7 @@ app.get('/webhook/', function(req, res){
 
 // Here bot reply message to sender on facebook/messager
 app.post('/webhook/', (req, res)=>{
+/*
     let data = req.body;
 
     if(data.object === 'page'){
@@ -48,10 +49,10 @@ app.post('/webhook/', (req, res)=>{
 
         res.sendStatus(200);
     }
-
+*/
     ///////////////
-/*
-    let messaging_events = req.body.entry[0].messaging;
+    let data = req.body;
+    let messaging_events = data.entry[0].messaging;
     for(let i=0; i< messaging_events.length; i++){
         let event = messaging_events[i];
         let sender = event.sender.id;
@@ -67,7 +68,7 @@ app.post('/webhook/', (req, res)=>{
         
     }
     res.sendStatus(200);
-*/
+
 });
 
 
