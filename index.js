@@ -233,13 +233,19 @@ function receivedPostback(event) {
   sendTextMessage(senderID, "Postback called: " + payload);
   processPostback(event,(messageData)=>{
       sendButtonMessage(senderID, messageData);
-  })
+  });
 }
 
 function processPostback(event, callback){
+    console.log("### postback ###");
+    console.log(JSON.stringify(event));
+    
     let messageData=null;
     switch(event.postback.payload){
         case 1:
+        case "1":
+        case '1':
+            
             messageData = {   
                 recipient: { id: event.recipient.id },
                 message: {
@@ -247,7 +253,7 @@ function processPostback(event, callback){
                         "type":"template",
                         "payload":{
                             "template_type":"button",
-                            "text":messageText,
+                            "text":"---messageText---",
                             "buttons":[
                                 { type:"postback", title:"1->menu4", payload:4 },
                                 { type:"postback", title:"1->menu5", payload:5 },
