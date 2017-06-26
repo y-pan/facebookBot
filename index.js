@@ -192,13 +192,18 @@ function receivedPostback(event) {
                 sendButtonMessage(event.sender.id,"Please select one:",buttons);
             }
         });
-
         break;
     case "im":
         sendTextMessage(event.sender.id, "Oops, still under developing in receivedPostback() for other tb type");
         break;
     case "ge":
-        sendTextMessage(event.sender.id, "Oops, still under developing in receivedPostback() for other tb type");
+        lib.retrieveGeById(ids,(elemetns) => {
+            if(elements.length <= 0){
+                sendTextMessage(event.sender.id,"Oops, can't find any generic record~~~");
+            }else{
+                sendGenericMessage(event.sender.id,elements);
+            }
+        });
         break;
     default:
         sendTextMessage(event.sender.id, "Oops, still under developing in receivedPostback() for other tb type");
@@ -225,8 +230,8 @@ function callSendAPI(messageData) {
     }
   });  
 }
-// not in use | to be changed
-function sendGenericMessage(recipientId, messageText) {
+/** not in use | to be changed*/
+function sendGenericMessage(recipientId, elements) {
    // need function with callback to return generic elemetns (how to link different type of element together? like genericId? )
   var messageData = {
     recipient: {
@@ -237,35 +242,7 @@ function sendGenericMessage(recipientId, messageText) {
         type: "template",
         payload: {
           template_type: "generic",
-          elements: [{
-            title: "rift",
-            subtitle: "Next-generation virtual reality",
-            item_url: "https://www.oculus.com/en-us/rift/",               
-            image_url: "http://messengerdemo.parseapp.com/img/rift.png",
-            buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/rift/",
-              title: "Open Web URL"
-            }, {
-              type: "postback",
-              title: "Call Postback",
-              payload: "Payload for first bubble",
-            }],
-          }, {
-            title: "touch",
-            subtitle: "Your Hands, Now in VR",
-            item_url: "https://www.oculus.com/en-us/touch/",               
-            image_url: "http://messengerdemo.parseapp.com/img/touch.png",
-            buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/touch/",
-              title: "Open Web URL"
-            }, {
-              type: "postback",
-              title: "Call Postback",
-              payload: "Payload for second bubble",
-            }]
-          }]
+          elements: elements
         }
       }
     }

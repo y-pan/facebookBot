@@ -4,7 +4,7 @@ module.exports.text2x = [
     ,{from:'toronto', to:"bu4,14,24"}
     ,{from:'markham', to:"te25"}
     ,{from:'walmart', to:"te26"}
-    ,{from:'college', to:"te34"}
+    ,{from:'college', to:"ge1"}
 ]
 
 
@@ -85,4 +85,37 @@ module.exports.bu= [
     ,{ id:'33',data:{type:"postback", title:"button33", payload:"te33" }}
 ]
 
-
+// generic
+module.exports.ge=[
+    { id:'1', name:'centennial', 
+    data:[{
+            title: "rift",
+            subtitle: "Next-generation virtual reality",
+            item_url: "https://www.oculus.com/en-us/rift/",               
+            image_url: "http://messengerdemo.parseapp.com/img/rift.png",
+            buttons: [{
+              type: "web_url",
+              url: "https://www.oculus.com/en-us/rift/",
+              title: "Open Web URL"
+            }, {
+              type: "postback",
+              title: "Call Postback",
+              payload: "Payload for first bubble",
+            }],
+          }, {
+            title: "touch",
+            subtitle: "Your Hands, Now in VR",
+            item_url: "https://www.oculus.com/en-us/touch/",               
+            image_url: "http://messengerdemo.parseapp.com/img/touch.png",
+            buttons: [{
+              type: "web_url",
+              url: "https://www.oculus.com/en-us/touch/",
+              title: "Open Web URL"
+            }, {
+              type: "postback",
+              title: "Call Postback",
+              payload: "Payload for second bubble",
+            }]
+          }]    
+    }
+]
