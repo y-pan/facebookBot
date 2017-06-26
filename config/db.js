@@ -5,6 +5,8 @@ module.exports.text2x = [
     ,{from:'markham', to:"te25"}
     ,{from:'walmart', to:"te26"}
     ,{from:'college', to:"ge1"}
+    ,{from:'VR', to:"ge2"}
+
 ]
 
 
@@ -87,7 +89,38 @@ module.exports.bu= [
 
 // generic
 module.exports.ge=[
-    { id:'1', name:'centennial', 
+    { id:'1', name:'college', 
+    data:[{
+            title: "Centennial College",
+            subtitle: "Ontario first college",
+            item_url: "https://www.centennialcollege.ca",               
+            image_url: "https://www.centennialcollege.ca/i/logo.svg",
+            buttons: [{
+              type: "web_url",
+              url: "https://www.centennialcollege.ca",
+              title: "Open Centennial Web"
+            }, {
+              type: "postback",
+              title: "Call Postback",
+              payload: "Payload for first bubble",
+            }],
+          }, {
+            title: "Seneca College",
+            subtitle: "Ontario college, likes red color",
+            item_url: "http://www.senecacollege.ca/",               
+            image_url: "http://www.senecacollege.ca/shared/images/Seneca-50-BIM.svg",
+            buttons: [{
+              type: "web_url",
+              url: "http://www.senecacollege.ca/",
+              title: "Open Seneca Web"
+            }, {
+              type: "postback",
+              title: "Call Postback",
+              payload: "Payload for second bubble",
+            }]
+          }]    
+    }
+    ,{ id:'2', name:'rift', 
     data:[{
             title: "rift",
             subtitle: "Next-generation virtual reality",
