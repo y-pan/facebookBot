@@ -158,7 +158,7 @@ function replyMessageOrPostback(event, payload=null){
             sendTextMessage(event.sender.id, "Oops, still under developing in receivedPostback() for other tb type");
             break;
         case "ge":
-            lib.retrieveGeById(ids,(elemetns) => {
+            lib.retrieveGeById(ids,(elements) => {
                 if(elements.length <= 0){
                     sendTextMessage(event.sender.id,"Oops, can't find any generic record~~~");
                 }else{
