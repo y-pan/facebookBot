@@ -1,11 +1,11 @@
-// simulate mongodb, will be replaced
+// simulate mongodb, will be replaced. Need to be lowercase
 module.exports.text2x = [
     {from:'offer', to:"bu1,2,3"}
     ,{from:'toronto', to:"bu4,14,24"}
     ,{from:'markham', to:"te25"}
     ,{from:'walmart', to:"te26"}
     ,{from:'college', to:"ge1"}
-    ,{from:'VR', to:"ge2"}
+    ,{from:'vr', to:"ge2"}
 
 ]
 
