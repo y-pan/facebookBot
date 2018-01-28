@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // routes
 app.get('/', function(req, res){
-    res.send('Hi I am a facebookbot, again in 2018');
+    res.send('Hi I am a facebookbot, again in 2018: port='+process.env.PORT +'\n testingVar= ' + process.env.testingVar  + " \n tetsingVar2="+process.env.tetsingVar2);
 });
 
 
@@ -47,6 +47,13 @@ app.post('/webhook', function (req, res) {
       entry.messaging.forEach(function(event) {
         if (event.message) {
             receivedMessage(event);       // user send text into bot 
+            /**
+             * ******************************************
+             * ******************************************
+             *             [main entryPoint]  
+             * ******************************************
+             * ******************************************
+            */
         } else if(event.postback) {
             replyMessageOrPostback(event,null);   // user postback to bot
         }else{                  
