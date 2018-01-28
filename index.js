@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // routes
 app.get('/', function(req, res){
-    res.send('Hi I am a facebookbot, again in 2018: port='+process.env.PORT +'\n testingVar= ' + process.env.testingVar  + " \n tetsingVar2="+process.env.tetsingVar2);
+    res.send('Hi I am a facebookbot, again in 2018: \n testingVar= ' + process.env.testingVar  + " \n tetsingVar2="+process.env.tetsingVar2);
 });
 
 
@@ -33,7 +33,7 @@ app.get('/webhook', function(req, res){
         res.status(200).send(req.query['hub.challenge']); // good
     }
     console.error("Failed validation. Make sure the validation tokens match.");
-    res.sendStatus(403).send("Wrong token ~~~~~");
+    res.sendStatus(403).send("Wrong token ~~~~~~~~");
 });
 
 app.post('/webhook', function (req, res) {
