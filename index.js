@@ -10,6 +10,10 @@ const lib = require('./lib/lib1');                  // function lib: manipulatin
 const db = require('./config/db');  // simulate mongodb for now
 
 const app = express();
+
+const pv_verify_token = process.env.verify_token;
+const pv_access_token = process.env.access_token;
+
 app.set('port', (process.env.PORT || 5000));
 
 // Allow us to process the data
@@ -24,7 +28,7 @@ app.get('/', function(req, res){
 
 // Facebook
 app.get('/webhook', function(req, res){
-    if(req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === secret.verify_token){
+    if(req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === pv_verify_token){
         console.log("Validating webhook");
         res.status(200).send(req.query['hub.challenge']); // good
     }
@@ -99,7 +103,7 @@ function receivedMessage(event) {
   if (messageText) {
     lib.recognizeText(messageText,(dataString)=>{
         if(dataString == null){
-            sendTextMessage(senderID, "Sorry, I don't know what to do with: "+messageText.substring(0,100));
+            sendTextMessage(senderID, "Sorry, I don't know what to do with :) "+messageText.substring(0,100));
         }else{
             replyMessageOrPostback(event, dataString);
         }
@@ -182,7 +186,7 @@ function replyMessageOrPostback(event, payload=null){
 function callSendAPI(messageData) {
   request({
     uri: secret.requestUri,
-    qs: { access_token: secret.access_token },
+    qs: { access_token: pv_access_token },
     method: 'POST',
     json: messageData
 
