@@ -1,3 +1,4 @@
 node_modules/
 /config/secret.js
+config/secret.js
 .DS_store
