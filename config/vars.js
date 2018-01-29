@@ -1,6 +1,10 @@
-module.exports.message_data_type = {
-    text:0,button:1,gif:2,audio:3,video:4,file:5,
-    generic:6,receipt:7,quick_reply:8,read_receipt:9,typing_on:10,
-    typing_off:11,acount_linking:12,message_attachment:13
+// module.exports.message_data_type = {
+//     text:0,button:1,gif:2,audio:3,video:4,file:5,
+//     generic:6,receipt:7,quick_reply:8,read_receipt:9,typing_on:10,
+//     typing_off:11,acount_linking:12,message_attachment:13
+// }
+// module.exports.delim=","
+modele.exports = {
+    delim:",",
+    requestUri:'https://graph.facebook.com/v2.6/me/messages'
 }
-module.exports.delim=","

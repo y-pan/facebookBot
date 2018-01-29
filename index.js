@@ -185,7 +185,7 @@ function replyMessageOrPostback(event, payload=null){
 
 function callSendAPI(messageData) {
   request({
-    uri: secret.requestUri,
+    uri: vars.requestUri,
     qs: { access_token: pv_access_token },
     method: 'POST',
     json: messageData
