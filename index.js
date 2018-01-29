@@ -2,7 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
-
+const mongoose = require('mongoose');
 
 // const secret = require('./config/secret');          // secret vars
 const vars = require('./config/vars');              // vars (general config vars)
@@ -10,9 +10,34 @@ const lib = require('./lib/lib1');                  // function lib: manipulatin
 const db = require('./config/db');  // simulate mongodb for now
 
 const app = express();
+let secret = "";
+let verify_token = "";
+let access_token = "";
+let testingVar = "";
+let dbConnection = "";
+let dbConnectionStatus = "Connection to";
 
-const pv_verify_token = process.env.verify_token;
-const pv_access_token = process.env.access_token;
+if(vars.useLocal){
+    secret = require('./config/secret');
+    verify_token = secret.access_token;
+    access_token = secret.access_token;
+    testingVar = "_local_testing_var_";
+    dbConnection = secret.db_local;
+    dbConnectionStatus += " LOCAL-DB: ";
+}else{ // not onlly db, but env variables are from heroku env
+    verify_token = process.env.verify_token;
+    access_token = process.env.access_token;
+    testingVar = process.env.testingVar;
+    dbConnection = process.env.db_cloud;
+    dbConnectionStatus += " CLOUD-DB: ";
+}
+
+mongoose.Promise = global.Promise;  // db will always use local
+mongoose.connect(dbConnection).then(()=>{
+    dbConnectionStatus += "SUCCESSFUL";
+}).catch(()=>{
+    dbConnectionStatus += "FAILED";
+});
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -22,13 +47,14 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // routes
 app.get('/', function(req, res){
-    res.send('Hi I am a facebookbot, again in 2018: \n testingVar= ' + process.env.testingVar  + " \n tetsingVar2="+process.env.tetsingVar2);
+    let greeting = 'Hi I am a facebookbot, v1: testingVar= ' + testingVar + "\n" + dbConnectionStatus;
+    console.log(greeting)
+    res.send(greeting);
 });
-
 
 // Facebook
 app.get('/webhook', function(req, res){
-    if(req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === pv_verify_token){
+    if(req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === verify_token){
         console.log("Validating webhook");
         res.status(200).send(req.query['hub.challenge']); // good
     }
@@ -109,14 +135,15 @@ function receivedMessage(event) {
         .catch((errorMsg)=>{
             sendTextMessage(senderID, errorMsg);
         });
-        
-    // lib.recognizeText(messageText,(dataString)=>{
-    //     if(dataString == null){
-    //         sendTextMessage(senderID, "Sorry, I don't know what to do with :) "+messageText.substring(0,100));
-    //     }else{
-    //         replyMessageOrPostback(event, dataString);
-    //     }
-    // });
+
+    lib.recognizeText(messageText,(dataString)=>{
+    
+        if(dataString == null){
+            sendTextMessage(senderID, "Sorry, I don't know what to do with :) "+messageText.substring(0,100));
+        }else{
+            replyMessageOrPostback(event, dataString);
+        }
+    });
 
   } else if (messageAttachments) {      /******************** to add attachemnt message (non-text type) **********************/
     sendTextMessage(senderID, "Message with attachment received, need to implement to store it in db (url) and server (actual file)");
@@ -195,7 +222,7 @@ function replyMessageOrPostback(event, payload=null){
 function callSendAPI(messageData) {
   request({
     uri: vars.requestUri,
-    qs: { access_token: pv_access_token },
+    qs: { access_token: access_token },
     method: 'POST',
     json: messageData
 

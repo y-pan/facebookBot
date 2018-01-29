@@ -5,6 +5,8 @@
 // }
 // module.exports.delim=","
 module.exports = {
+    useLocal:false,
     delim:",",
-    requestUri:'https://graph.facebook.com/v2.6/me/messages'
+    requestUri:'https://graph.facebook.com/v2.6/me/messages',
+    
 }
