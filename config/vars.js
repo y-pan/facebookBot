@@ -4,7 +4,7 @@
 //     typing_off:11,acount_linking:12,message_attachment:13
 // }
 // module.exports.delim=","
-modele.exports = {
+module.exports = {
     delim:",",
     requestUri:'https://graph.facebook.com/v2.6/me/messages'
 }

@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const request = require('request');
 
 
-const secret = require('./config/secret');          // secret vars
+// const secret = require('./config/secret');          // secret vars
 const vars = require('./config/vars');              // vars (general config vars)
 const lib = require('./lib/lib1');                  // function lib: manipulating arrays, objects, values
 const db = require('./config/db');  // simulate mongodb for now
