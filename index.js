@@ -106,10 +106,10 @@ function receivedMessage(event) {
         .then(dataString =>{
             replyMessageOrPostback(event, dataString);
         })
-        .catch((error)=>{
-            sendTextMessage(senderID, error + " for :" +messageText.substring(0,100));
-        })
-
+        .catch((errorMsg)=>{
+            sendTextMessage(senderID, errorMsg);
+        });
+        
     // lib.recognizeText(messageText,(dataString)=>{
     //     if(dataString == null){
     //         sendTextMessage(senderID, "Sorry, I don't know what to do with :) "+messageText.substring(0,100));
