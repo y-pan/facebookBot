@@ -8,7 +8,7 @@ const Camera = require('./models/camera'); // not using router, make it simple f
 // const secret = require('./config/secret');          // secret vars
 const vars = require('./config/vars');              // vars (general config vars)
 const lib = require('./lib/lib1');                  // function lib: manipulating arrays, objects, values
-const db = require('./config/db');  // simulate mongodb for now
+// const db = require('./config/db');  // simulate mongodb for now
 
 const app = express();
 let secret = "";
@@ -17,6 +17,8 @@ let access_token = "";
 let testingVar = "";
 let dbConnection = "";
 let dbConnectionStatus = "Connection to";
+
+let useLocal = vars.useLocal;
 
 if(vars.useLocal){
     secret = require('./config/secret');
@@ -37,10 +39,9 @@ mongoose.Promise = global.Promise;  // db will always use local
 mongoose.connect(dbConnection).then(()=>{
     dbConnectionStatus += "SUCCESSFUL";
     Camera.findAll().then((data)=>{
-        dbConnectionStatus += " fetched data: " + data + " " + data.length;
+        dbConnectionStatus += " fetched 1st record: " + data + " TOTAL data size:" + data.length;
     }).catch((data)=>{
-        dbConnectionStatus += " failed to validate data somehow~~~, try later";
-
+        dbConnectionStatus += " failed to validate data somehow~~~, check server/db, try later";
     });
 }).catch(()=>{
     dbConnectionStatus += "FAILED";
@@ -190,6 +191,9 @@ function replyMessageOrPostback(event, payload=null){
         console.log("Received postback for user %d and page %d with payload '%s' " + "at %d", event.sender.id, event.recipient.id, event.postback.payload, event.timestamp);
         payload = event.postback.payload;
     }
+    console.log("YUN => PAYLOAD: " + payload);
+    sendTextMessage(event.sender.id, "REPLYING MSG: " + payload);
+/*
     tb = payload.substring(0, 2); // db collection(table) name
     ids = payload.substring(2);    // id in the collection
 
@@ -223,7 +227,7 @@ function replyMessageOrPostback(event, payload=null){
         default:
             sendTextMessage(event.sender.id, "Oops, still under developing in receivedPostback() for other tb type");
             break;
-    }
+    }*/
 }
 
 function callSendAPI(messageData) {
