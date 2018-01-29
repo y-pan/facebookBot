@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const mongoose = require('mongoose');
-const Camera = require('./models/camera');
+const Camera = require('./models/camera'); // not using router, make it simple for now, make traffic camera working smoothly is enough now...
 
 // const secret = require('./config/secret');          // secret vars
 const vars = require('./config/vars');              // vars (general config vars)

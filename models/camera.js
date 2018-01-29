@@ -8,11 +8,11 @@ const CameraSchema = mongoose.Schema({
 
 }, {collection:'camera'});
 
-const camera = module.exports = mongoose.model('camera', CameraSchema);
+const Camera = module.exports = mongoose.model('camera', CameraSchema);
 
 module.exports.findAll = () =>{
     return new Promise((resolve, reject) =>{
-        User.find({}, (err, data)=>{
+        Camera.find({}, (err, data)=>{
             if(err){
                 reject("Data not available, try again.")
             }
