@@ -101,13 +101,22 @@ function receivedMessage(event) {
   var messageAttachments = message.attachments;
 
   if (messageText) {
-    lib.recognizeText(messageText,(dataString)=>{
-        if(dataString == null){
-            sendTextMessage(senderID, "Sorry, I don't know what to do with :) "+messageText.substring(0,100));
-        }else{
+    // text
+    lib.recognizeText_promise(messageText)
+        .then(dataString =>{
             replyMessageOrPostback(event, dataString);
-        }
-    });
+        })
+        .catch((error)=>{
+            sendTextMessage(senderID, error + " for :" +messageText.substring(0,100));
+        })
+
+    // lib.recognizeText(messageText,(dataString)=>{
+    //     if(dataString == null){
+    //         sendTextMessage(senderID, "Sorry, I don't know what to do with :) "+messageText.substring(0,100));
+    //     }else{
+    //         replyMessageOrPostback(event, dataString);
+    //     }
+    // });
 
   } else if (messageAttachments) {      /******************** to add attachemnt message (non-text type) **********************/
     sendTextMessage(senderID, "Message with attachment received, need to implement to store it in db (url) and server (actual file)");
