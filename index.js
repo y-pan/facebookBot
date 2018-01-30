@@ -206,14 +206,16 @@ function callSendAPI(messageData) {
     json: messageData
 
   }, function (error, response, body) {
+    console.log("@@@begin callSendAPI" +messageData );
+
     if (!error && response.statusCode == 200) {
       var recipientId = body.recipient_id;
       var messageId = body.message_id;
       console.log("Successfully sent generic message with id %s to recipient %s", messageId, recipientId);
     } else {
       console.error("Unable to send message.");
-      console.error(response);
-      console.error(error);
+      console.error("@@@begin callSendAPI => response: \n"+response);
+      console.error("@@@begin callSendAPI => error: \n" + error);
     }
   });  
 }
