@@ -140,12 +140,17 @@ function receivedMessage(event) {
     lib.searchDb_pm(messageText)
         .then(urls =>{
             let str = "";
-            urls = ["http://opendata.toronto.ca/transportation/tmc/rescucameraimages/CameraImages/loc9113.jpg"]
-            urls.forEach(u => str+= u + ",")
-            if(str.length > 1){
-                str = str.substring(0, str.length -1);
-            }
-            sendTextMessage(senderID, str);
+            urls = ["http://opendata.toronto.ca/transportation/tmc/rescucameraimages/CameraImages/loc9113.jpg",
+             "https://www.toronto.ca/data/transportation/roadrestrictions/CameraImages/loc8073.jpg"]
+            // urls.forEach(u => str+= u + ",")
+            // if(str.length > 1){
+            //     str = str.substring(0, str.length -1);
+            // }
+            // sendTextMessage(senderID, str);
+
+            urls.forEach(url =>{
+                sendTextMessage(senderID, url);
+            });
             // replyMessageOrPostback(event, str);
         })
         .catch(err=>{
