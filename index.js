@@ -137,7 +137,7 @@ function receivedMessage(event) {
   if (messageText) {
     // text
     
-    lib.searchDb_pm(messageText)
+    searchDb_pm(messageText)
         .then(urls =>{
             // let str = "";
             // urls = ["http://opendata.toronto.ca/transportation/tmc/rescucameraimages/CameraImages/loc9113.jpg",
@@ -248,3 +248,33 @@ function sendGenericMessage(recipientId, elements) {
   callSendAPI(messageData);
 }
 
+
+
+function searchDb_pm (text) {
+    return new Promise((res, rej) =>{
+        let feedback = null;
+        let tags = text.split(" ");
+        // logic to determing which collection to search, now only look into "camera" in db
+        console.log("@@@TAGS:"+text);
+
+        // urls = ["http://opendata.toronto.ca/transportation/tmc/rescucameraimages/CameraImages/loc9113.jpg",
+        //      "https://www.toronto.ca/data/transportation/roadrestrictions/CameraImages/loc8073.jpg"]
+        // res(urls);
+
+        Camera.findAll_pm().then((urls)=>{
+            if(urls.constructor === Array){
+                res(urls);
+            }
+            rej("some error occursed");
+        }).catch((err)=>{
+            rej("some error occursed");
+        });
+
+        // Camera.findAllByQueryObject_pm({"tags": tags}).then(urls =>{
+        //     res(urls);
+        // }).catch(err =>{
+        //     rej(err);
+        // });
+
+    });
+}
