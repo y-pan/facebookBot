@@ -122,17 +122,24 @@ app.listen(app.get('port'), () => {
 
 
 function receivedMessage(event) {
-    var senderID = event.sender.id;
-    var recipientID = event.recipient.id;
-    var timeOfMessage = event.timestamp;
-    var message = event.message;
+    let senderID = event.sender.id;
+    let recipientID = event.recipient.id;
+    let timeOfMessage = event.timestamp;
+    let message = event.message;
     console.log("Received message for user %d and page %d at %d with message:", senderID, recipientID, timeOfMessage);
     console.log(JSON.stringify(message));
-    var messageId = message.mid;
+    let messageId = message.mid;
 
     // You may get a text or attachment but not both
-    var messageText = message.text.toLowerCase();
-    var messageAttachments = message.attachments;
+    let messageText ;
+    let messageAttachments;
+
+    if(message && message.text){
+        messageText = message.text.toLowerCase();
+    }
+    if(messageAttachments){
+        messageAttachments = message.attachments;
+    }
 
     if (messageText) {
         // text
