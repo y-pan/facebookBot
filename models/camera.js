@@ -30,12 +30,14 @@ module.exports.findAllByQueryObject_pm = (obj) =>{
 
         Camera.find(obj, (err, data) =>{
             if(err) rej("Error, try again");
-            let url = [];
-            data.forEach(camera =>{
-                url.push(camera.url);
-            });
-            if(url.length == 0) rej("No relevant data found.");
-            res(urls);
+            // let url = [];
+            // data.forEach(camera =>{
+            //     url.push(camera.url);
+            // });
+
+            if(data.constructor === Array && data.length > 0) { res(data) }
+            else {rej("No relevant data found.");}
+            
         })
     });
 }
