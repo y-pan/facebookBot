@@ -141,7 +141,7 @@ function receivedMessage(event) {
         .then(urls =>{
             let str = "";
             urls = ["https://dashboard.heroku.com/apps/facebookbot4traffic/logs", "https://docs.mongodb.com/manual/tutorial/query-arrays/"]
-            urls.forEach(u => str+= ",")
+            urls.forEach(u => str+= u + ",")
             if(str.length > 1){
                 str.substring(0, str.length -1);
             }
