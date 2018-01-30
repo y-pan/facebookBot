@@ -39,7 +39,7 @@ mongoose.Promise = global.Promise;  // db will always use local
 mongoose.connect(dbConnection).then(()=>{
     dbConnectionStatus += "SUCCESSFUL";
     Camera.findAll_pm().then((data)=>{
-        dbConnectionStatus += " fetched 1st record: " + data + " TOTAL data size:" + data.length;
+        dbConnectionStatus += " fetched 1st record: " + data[0] + " TOTAL data size:" + data.length;
     }).catch((data)=>{
         dbConnectionStatus += " failed to validate data somehow~~~, check server/db, try later";
     });
@@ -137,7 +137,7 @@ function receivedMessage(event) {
   if (messageText) {
     // text
     
-    lib.recognizeText_pm(messageText)
+    lib.searchDb_pm(messageText)
         .then(urls =>{
             let str = "";
             urls.forEach(u => str+= ",")
