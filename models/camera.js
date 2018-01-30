@@ -17,6 +17,7 @@ module.exports.findAll_pm = () =>{
             if(err){
                 reject("Data not available, try again.")
             }
+            
             resolve(data);
         })
     
@@ -28,14 +29,24 @@ module.exports.findAllByQueryObject_pm = (obj) =>{
     // might search on different db base 
     return new Promise((res, rej) =>{
 
-        Camera.find(obj, (err, data) =>{
+        let inTags = obj.tags;
+        Camera.find({}, (err, data) =>{
             if(err) rej("Error, try again");
-            // let url = [];
-            // data.forEach(camera =>{
-            //     url.push(camera.url);
-            // });
-
-            if(data.constructor === Array && data.length > 0) { res(data) }
+ 
+            if(data.constructor === Array && data.length > 0) { 
+                let _cameras = [];
+                for(let i=0; i<data.length && i >=0; i++){
+                    let _t = data[i].tags;
+                    for(let j=0; j<_t.length;j++){
+                        if(_t[j]=="toronto") { 
+                            _cameras.push(data[i]);
+                            i = -999;
+                        }
+                    }
+                }
+      
+                res(_cameras) 
+            }
             else {rej("No relevant data found.");}
             
         })
