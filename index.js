@@ -198,7 +198,7 @@ function replyMessageOrPostback(event, payload=null){
 }
 
 function callSendAPI(messageData) {
-    console.log("@@@begin callSendAPI" +messageData );
+    console.log("@@@begin callSendAPI" );
   request({
     uri: vars.requestUri,
     qs: { access_token: access_token },
@@ -206,7 +206,8 @@ function callSendAPI(messageData) {
     json: messageData
 
   }, function (error, response, body) {
-    console.log("@@@begin callSendAPI" +messageData );
+    console.log("@@@begin callSendAPI => messageData\n");
+    console.log(messageData );
 
     if (!error && response.statusCode == 200) {
       var recipientId = body.recipient_id;
@@ -214,8 +215,10 @@ function callSendAPI(messageData) {
       console.log("Successfully sent generic message with id %s to recipient %s", messageId, recipientId);
     } else {
       console.error("Unable to send message.");
-      console.error("@@@begin callSendAPI => response: \n"+response);
-      console.error("@@@begin callSendAPI => error: \n" + error);
+      console.error("@@@begin callSendAPI => response:n");
+      console.error(response);
+      console.error("@@@begin callSendAPI => error: \n");
+      console.error(error);
     }
   });  
 }
