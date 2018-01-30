@@ -249,13 +249,7 @@ function searchDb_pm(text) {
         let tags = text.split(" ");
         tags.forEach(t =>{
             console.log("@@@Tags +=" + t);
-        })
-        // logic to determing which collection to search, now only look into "camera" in db
-        // console.log("@@@TAGS:" + text);
-        
-        // urls = ["http://opendata.toronto.ca/transportation/tmc/rescucameraimages/CameraImages/loc9113.jpg",
-        //      "https://www.toronto.ca/data/transportation/roadrestrictions/CameraImages/loc8073.jpg"]
-        // res(urls);
+        }); // ok
 
         Camera.findAllByQueryObject_pm({"tags":tags})
             .then((cameras) => {
@@ -270,12 +264,6 @@ function searchDb_pm(text) {
             }).catch((err) => {
                 rej("some error occursed");
             });
-
-        // Camera.findAllByQueryObject_pm({"tags": tags}).then(urls =>{
-        //     res(urls);
-        // }).catch(err =>{
-        //     rej(err);
-        // });
 
     });
 }

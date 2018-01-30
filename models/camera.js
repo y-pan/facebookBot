@@ -35,17 +35,17 @@ module.exports.findAllByQueryObject_pm = (obj) =>{
  
             if(data.constructor === Array && data.length > 0) { 
                 let _cameras = [];
-                for(let i=0; i<data.length && i >=0; i++){
-                    let _t = data[i].tags;
-                    for(let j=0; j<_t.length;j++){
-                        if(_t[j]=="toronto") { 
-                            _cameras.push(data[i]);
-                            i = -999;
-                        }
+                for(let i=0; i<data.length; i++){                    
+                    if(lib.isArraysOverlap(data[i].tags, inTags)){
+                        _cameras.push(data[i]);
                     }
                 }
-      
-                res(_cameras) 
+                if(_cameras.length > 0){
+                    res(_cameras);
+                }else{
+                    rej("No relevant data found.");
+                }
+                
             }
             else {rej("No relevant data found.");}
             
