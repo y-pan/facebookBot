@@ -149,8 +149,8 @@ function receivedMessage(event) {
                 console.log("@@@url size: " + urls.length);
 
                 urls.forEach(url => {
-                    console.log("@@@send url: " + url);
-                    sendTextMessage(senderID, url);
+                    console.log("@@@send url: " + url.url);
+                    sendTextMessage(senderID, url.url);
                 });
 
                 // replyMessageOrPostback(event, str);
