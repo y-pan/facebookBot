@@ -198,6 +198,7 @@ function replyMessageOrPostback(event, payload=null){
 }
 
 function callSendAPI(messageData) {
+    console.log("@@@begin callSendAPI" +messageData );
   request({
     uri: vars.requestUri,
     qs: { access_token: access_token },
