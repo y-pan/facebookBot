@@ -266,7 +266,7 @@ function searchDb_pm(text) {
         Camera.findAll_pm()
             .then((urls) => {
                 if (urls.constructor === Array) {
-                    res(urls[0]);
+                    res(urls);
                 } else {
                     rej("some error occursed");
                 }
