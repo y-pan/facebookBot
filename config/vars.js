@@ -9,4 +9,6 @@ module.exports = {
     delim:",",
     requestUri:'https://graph.facebook.com/v2.6/me/messages',
     
+    msgSomeError = "Some error occurred, try again.",
+    msgNoData = "No relevant data found"
 }

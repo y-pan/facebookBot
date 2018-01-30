@@ -10,15 +10,23 @@ const CameraSchema = mongoose.Schema({
 
 const Camera = module.exports = mongoose.model('camera', CameraSchema);
 
+
+// RULE: 1 - searching in db only 2 kinds of result as promise: data (not empty) or err(exception, or empty data)
+ 
+
 // find all return as array
 module.exports.findAll_pm = () =>{
     return new Promise((resolve, reject) =>{
         Camera.find({}, (err, data)=>{
             if(err){
-                reject("Data not available, try again.")
+                reject(vars.msgSomeError)
+            }
+            if(data.constructor === Array && data.length > 0){
+                resolve(data);
+            }else{
+                reject(vars.msgNoData)
             }
             
-            resolve(data);
         })
     
     });
@@ -31,7 +39,7 @@ module.exports.findAllByQueryObject_pm = (obj) =>{
 
         let inTags = obj.tags;
         Camera.find({}, (err, data) =>{
-            if(err) rej("Error, try again");
+            if(err) rej(vars.msgSomeError);
  
             if(data.constructor === Array && data.length > 0) { 
                 let _cameras = [];
@@ -43,11 +51,11 @@ module.exports.findAllByQueryObject_pm = (obj) =>{
                 if(_cameras.length > 0){
                     res(_cameras);
                 }else{
-                    rej("No relevant data found.");
+                    rej(vars.msgNoData);
                 }
                 
             }
-            else {rej("No relevant data found.");}
+            else {rej(vars.msgNoData);}
             
         })
     });
