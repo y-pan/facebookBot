@@ -253,16 +253,14 @@ function searchDb_pm(text) {
 
         Camera.findAllByQueryObject_pm({"tags":tags})
             .then((cameras) => {
-                cameras.forEach(c =>{
-                    console.log("@@@camera +=" + c);
-                })
-                if (cameras.constructor === Array && cameras.length > 0 ) {
-                    res(cameras);
-                } else {
-                    rej("No data found");
-                }
+                res(cameras);
+                // if (cameras.constructor === Array && cameras.length > 0 ) {
+                //     res(cameras);
+                // } else {
+                //     rej("No data found");
+                // }
             }).catch((err) => {
-                rej("some error occursed");
+                rej(err);
             });
 
     });
