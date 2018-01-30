@@ -136,7 +136,6 @@ function receivedMessage(event) {
 
     if (messageText) {
         // text
-
         searchDb_pm(messageText)
             .then(urls => {
                 // let str = "";
@@ -148,7 +147,9 @@ function receivedMessage(event) {
                 // }
                 // sendTextMessage(senderID, str);
                 console.log("@@@url size: " + urls.length);
+
                 urls.forEach(url => {
+                    console.log("@@@send url: " + url);
                     sendTextMessage(senderID, url);
                 });
 
