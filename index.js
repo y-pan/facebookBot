@@ -139,12 +139,12 @@ function receivedMessage(event) {
     
     lib.searchDb_pm(messageText)
         .then(urls =>{
-            let str = "";
-            urls.forEach(u => str+= ",")
-            if(str.length > 1){
-                str.substring(0, str.length -1);
-            }
-            sendTextMessage(senderID, str);
+            // let str = "";
+            // urls.forEach(u => str+= ",")
+            // if(str.length > 1){
+            //     str.substring(0, str.length -1);
+            // }
+            sendTextMessage(senderID, urls);
             // replyMessageOrPostback(event, str);
         })
         .catch(err=>{
