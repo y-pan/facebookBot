@@ -247,19 +247,25 @@ function searchDb_pm(text) {
     return new Promise((res, rej) => {
         let feedback = null;
         let tags = text.split(" ");
+        tags.forEach(t =>{
+            console.log("@@@Tags +=" + t);
+        })
         // logic to determing which collection to search, now only look into "camera" in db
-        console.log("@@@TAGS:" + text);
-
+        // console.log("@@@TAGS:" + text);
+        
         // urls = ["http://opendata.toronto.ca/transportation/tmc/rescucameraimages/CameraImages/loc9113.jpg",
         //      "https://www.toronto.ca/data/transportation/roadrestrictions/CameraImages/loc8073.jpg"]
         // res(urls);
 
-        Camera.findAll_pm({"tags":tags})
-            .then((urls) => {
-                if (urls.constructor === Array) {
+        Camera.findAllByQueryObject_pm({"tags":tags})
+            .then((cameras) => {
+                cameras.forEach(c =>{
+                    console.log("@@@camera +=" + c);
+                })
+                if (cameras.constructor === Array && cameras.length > 0 ) {
                     res(urls);
                 } else {
-                    rej("some error occursed");
+                    rej("No data found");
                 }
             }).catch((err) => {
                 rej("some error occursed");
