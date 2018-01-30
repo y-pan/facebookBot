@@ -19,8 +19,8 @@ let dbConnection = "";
 let dbConnectionStatus = "Connection to";
 
 let useLocal = vars.useLocal;
-
-if(vars.useLocal){
+// useLocal = true;
+if(useLocal){
     secret = require('./config/secret');
     verify_token = secret.access_token;
     access_token = secret.access_token;
