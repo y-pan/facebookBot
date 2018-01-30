@@ -147,10 +147,10 @@ function receivedMessage(event) {
             //     str = str.substring(0, str.length -1);
             // }
             // sendTextMessage(senderID, str);
-
             urls.forEach(url =>{
                 sendTextMessage(senderID, url);
             });
+            
             // replyMessageOrPostback(event, str);
         })
         .catch(err=>{
