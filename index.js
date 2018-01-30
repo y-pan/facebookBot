@@ -263,7 +263,7 @@ function searchDb_pm(text) {
                     console.log("@@@camera +=" + c);
                 })
                 if (cameras.constructor === Array && cameras.length > 0 ) {
-                    res(urls);
+                    res(cameras);
                 } else {
                     rej("No data found");
                 }
