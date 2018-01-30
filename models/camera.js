@@ -10,7 +10,8 @@ const CameraSchema = mongoose.Schema({
 
 const Camera = module.exports = mongoose.model('camera', CameraSchema);
 
-module.exports.findAll = () =>{
+// find all return as array
+module.exports.findAll_pm = () =>{
     return new Promise((resolve, reject) =>{
         Camera.find({}, (err, data)=>{
             if(err){
@@ -19,5 +20,22 @@ module.exports.findAll = () =>{
             resolve(data);
         })
     
+    });
+}
+
+// find matches return as array
+module.exports.findAllByQueryObject_pm = (obj) =>{
+    // might search on different db base 
+    return new Promise((res, rej) =>{
+
+        Camera.find(obj, (err, data) =>{
+            if(err) rej("Error, try again");
+            let url = [];
+            data.forEach(camera =>{
+                url.push(camera.url);
+            });
+            if(url.length == 0) rej("No relevant data found.");
+            res(urls);
+        })
     });
 }

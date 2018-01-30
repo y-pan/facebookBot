@@ -38,7 +38,7 @@ if(vars.useLocal){
 mongoose.Promise = global.Promise;  // db will always use local
 mongoose.connect(dbConnection).then(()=>{
     dbConnectionStatus += "SUCCESSFUL";
-    Camera.findAll().then((data)=>{
+    Camera.findAll_pm().then((data)=>{
         dbConnectionStatus += " fetched 1st record: " + data + " TOTAL data size:" + data.length;
     }).catch((data)=>{
         dbConnectionStatus += " failed to validate data somehow~~~, check server/db, try later";
@@ -136,22 +136,20 @@ function receivedMessage(event) {
 
   if (messageText) {
     // text
-    lib.recognizeText_promise(messageText)
-        .then(dataString =>{
-            replyMessageOrPostback(event, dataString);
-        })
-        .catch((errorMsg)=>{
-            sendTextMessage(senderID, errorMsg);
-        });
-
-    lib.recognizeText(messageText,(dataString)=>{
     
-        if(dataString == null){
-            sendTextMessage(senderID, "Sorry, I don't know what to do with :) "+messageText.substring(0,100));
-        }else{
-            replyMessageOrPostback(event, dataString);
-        }
-    });
+    lib.recognizeText_pm(messageText)
+        .then(urls =>{
+            let str = "";
+            urls.forEach(u => str+= ",")
+            if(str.length > 1){
+                str.substring(0, str.length -1);
+            }
+            sendTextMessage(senderID, str);
+            // replyMessageOrPostback(event, str);
+        })
+        .catch(err=>{
+            sendTextMessage(senderID, err);
+        });
 
   } else if (messageAttachments) {      /******************** to add attachemnt message (non-text type) **********************/
     sendTextMessage(senderID, "Message with attachment received, need to implement to store it in db (url) and server (actual file)");
@@ -167,6 +165,9 @@ function sendTextMessage(recipientId, messageText) {
   };
   callSendAPI(messageData);
 }
+
+
+
 function sendButtonMessage(recipientId, messageText, buttons) {
     var messageData = {   
         recipient: { id: recipientId },
@@ -193,41 +194,7 @@ function replyMessageOrPostback(event, payload=null){
     }
     console.log("YUN => PAYLOAD: " + payload);
     sendTextMessage(event.sender.id, "REPLYING MSG: " + payload);
-/*
-    tb = payload.substring(0, 2); // db collection(table) name
-    ids = payload.substring(2);    // id in the collection
 
-    switch(tb){
-        case "te":
-            lib.retrieveTeById(ids,(text)=>{
-                sendTextMessage(event.sender.id, text);
-            })
-            break;
-        case "bu":
-            lib.retrieveBuById(ids,(buttons)=>{
-                if(buttons.length <= 0){
-                    sendTextMessage(event.sender.id,"Oops, can't find any buttons~~~");
-                }else{
-                    sendButtonMessage(event.sender.id,"Please select one:",buttons);
-                }
-            });
-            break;
-        case "im":
-            sendTextMessage(event.sender.id, "Oops, still under developing in receivedPostback() for other tb type");
-            break;
-        case "ge":
-            lib.retrieveGeById(ids,(elements) => {
-                if(elements.length <= 0){
-                    sendTextMessage(event.sender.id,"Oops, can't find any generic record~~~");
-                }else{
-                    sendGenericMessage(event.sender.id,elements);
-                }
-            });
-            break;
-        default:
-            sendTextMessage(event.sender.id, "Oops, still under developing in receivedPostback() for other tb type");
-            break;
-    }*/
 }
 
 function callSendAPI(messageData) {
