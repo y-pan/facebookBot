@@ -137,7 +137,7 @@ function receivedMessage(event) {
     if (messageText) {
         // text
         searchDb_pm(messageText)
-            .then(urls => {
+            .then(cameras => {
                 // let str = "";
                 // urls = ["http://opendata.toronto.ca/transportation/tmc/rescucameraimages/CameraImages/loc9113.jpg",
                 //  "https://www.toronto.ca/data/transportation/roadrestrictions/CameraImages/loc8073.jpg"]
@@ -146,11 +146,11 @@ function receivedMessage(event) {
                 //     str = str.substring(0, str.length -1);
                 // }
                 // sendTextMessage(senderID, str);
-                console.log("@@@url size: " + urls.length);
+                console.log("@@@cameras size: " + cameras.length);
 
-                urls.forEach(url => {
-                    console.log("@@@send url: " + url.url);
-                    sendTextMessage(senderID, url.url);
+                cameras.forEach(camera => {
+                    console.log("@@@send camera.url: " + camera.url);
+                    sendTextMessage(senderID, camera.url);
                 });
 
                 // replyMessageOrPostback(event, str);
