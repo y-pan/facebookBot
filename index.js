@@ -144,11 +144,14 @@ function receivedMessage(event) {
     if (messageText) {
         // text
         searchDb_pm(messageText)
-            .then(cameras => {
-                console.log("@@@cameras size: " + cameras.length);
-                cameras.forEach(camera => {
-                    console.log("@@@send camera.url: " + camera.url);
-                    sendTextMessage(senderID, camera.url);
+            .then(camera_distances => {
+                // [{"data":camera,"distance":distance}]
+                console.log("@@@cameras size: " + camera_distances.length);
+                camera_distances.forEach(camera => {
+                    console.log("@@@send camera.url: " + camera_distances.data.url);
+                    console.log("@@@result dis: " + camera_distances.distance);
+                    
+                    sendTextMessage(senderID, camera_distances.data.url + "  matchIndex["+camera_distances.distance+"]");
                 });
                 // replyMessageOrPostback(event, str);
             })
@@ -252,24 +255,9 @@ function sendGenericMessage(recipientId, elements) {
 
 function searchDb_pm(text) {
     return new Promise((res, rej) => {
-        let feedback = null;
-        // let tags = text.split(" ");
-        // tags.forEach(t =>{
-        //     console.log("@@@Tags +=" + t);
-        // }); // ok
-
         Camera.findAndMatchTag_pm(text)
             .then((data) => {
-                // only show top 5
-                // data is : [{"data":data[i],"distance":distance}]      
-                        
-                res(data);
-
-                // if (cameras.constructor === Array && cameras.length > 0 ) {
-                //     res(cameras);
-                // } else {
-                //     rej("No data found");
-                // }
+                res(data); // get only top 5, as [{"data":camera,"distance":distance}]   
             }).catch((err) => {
                 rej(err);
             });
