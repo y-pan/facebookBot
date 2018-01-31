@@ -111,8 +111,19 @@ app.post('/webhook', function (req, res) {
 
 app.listen(app.get('port'), () => {
     console.log("running: port", app.get('port'));
+
+    // test
+    test()
+
 });
 
+function test(){
+    console.log(lib.toString())
+    let string1 = "toronto";
+    let string2 = "torontt";
+    let result = lib.evalDistance(string1, string2);
+    console.log(result);
+}
 
 /**
  * ---------------------------------------------------------------------------

@@ -45,14 +45,22 @@ module.exports.findAndMatchTag_pm = (tag, distance_threshold) =>{
                 for(let i=0; i<data.length; i++){      
                     let distance = lib.evalDistance(data[i].tag, tag);              
                     if(distance){
+                        console.log("@@@camera/findAndMatchTag_pm: new item with distance="+ distance);
                         _camera_distance_array.push({"data":data[i],"distance":distance});
                     }
                 }
-                if(_camera_distance_array.length > 0){
-                    let tops = lib.getTops(_camera_distance_array, vars.result_limit); // like the top 5 (lowest ones in distance) 
+                if(_camera_distance_array.constructor===Array && _camera_distance_array.length > 0){
+                    console.log("@@@tops begins...");
+                    let tops = [];
+                    tops = lib.getTops(_camera_distance_array, vars.result_limit); // like the top 5 (lowest ones in distance) 
                     console.log("@@@tops: " + tops.length);
                     console.log(tops);
-                    res(tops);
+                    if(!tops || tops.length == 0 ){
+                        rej(vars.msgNoData);
+                    }else{
+                        res(tops);
+                    }
+                    
                 }else{
                     rej(vars.msgNoData);
                 }
