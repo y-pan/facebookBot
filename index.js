@@ -171,7 +171,7 @@ function receivedMessage(event) {
                     // console.log(item.data.tag);
                     // console.log("@@@!!!send camera.url: " + item.data.url);
                     // console.log("@@@!!!result dis: " + item.distance);
-                    let _msg = item.data.tag + "\n" + item.data.url
+                    let _msg = item.data.tag+" | "+ item.distance + "\n" + item.data.url
                     console.log("@@@!!!_msg is: " + _msg);
 
                     sendTextMessage(senderID, _msg);
