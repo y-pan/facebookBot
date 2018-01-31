@@ -22,9 +22,7 @@ module.exports.findAll_pm = () =>{
                 reject(vars.msgSomeError)
             }
             if(data.constructor === Array && data.length > 0){
-                let tops = lib.getTops(data, vars.result_limit); // like the top 5 (lowest ones in distance) 
-                console.log("@@@tops: " + tops.length);
-                console.log(tops);
+               
                 resolve(tops);
             }else{
                 reject(vars.msgNoData)
@@ -51,8 +49,10 @@ module.exports.findAndMatchTag_pm = (tag, distance_threshold) =>{
                     }
                 }
                 if(_camera_distance_array.length > 0){
-                    console.log("@@@Find: _camera_distance_array.length=" + _camera_distance_array.length)
-                    res(_camera_distance_array);
+                    let tops = lib.getTops(_camera_distance_array, vars.result_limit); // like the top 5 (lowest ones in distance) 
+                    console.log("@@@tops: " + tops.length);
+                    console.log(tops);
+                    res(tops);
                 }else{
                     rej(vars.msgNoData);
                 }
