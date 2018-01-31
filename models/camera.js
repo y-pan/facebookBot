@@ -23,7 +23,7 @@ module.exports.findAll_pm = () =>{
             }
             if(data.constructor === Array && data.length > 0){
                
-                resolve(tops);
+                resolve(data);
             }else{
                 reject(vars.msgNoData)
             }
