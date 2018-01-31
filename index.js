@@ -158,10 +158,11 @@ function receivedMessage(event) {
             .then(camera_distances => {
                 // [{"data":camera,"distance":distance}]
                 console.log("@@@cameras size: " + camera_distances.length);
-                camera_distances.forEach(camera => {
-                    console.log("@@@!!!send camera.url: " + camera.data.url);
-                    console.log("@@@!!!result dis: " + camera.distance);
-                    sendTextMessage(senderID, camera.data.url + "  matchIndex["+camera.distance+"]");
+                camera_distances.forEach(item => {
+                    // item: {"data":camera,"distance":distance}
+                    console.log("@@@!!!send camera.url: " + item.data.url);
+                    console.log("@@@!!!result dis: " + item.distance);
+                    sendTextMessage(senderID,  + item.data.tag + " \n:  " + item.data.url);
                 });
                 // replyMessageOrPostback(event, str);
             })
