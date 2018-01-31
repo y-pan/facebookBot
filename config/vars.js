@@ -10,5 +10,7 @@ module.exports = {
     requestUri:'https://graph.facebook.com/v2.6/me/messages',
     
     msgSomeError : "Some error occurred, try again.",
-    msgNoData : "No relevant data found"
+    msgNoData : "No relevant data found",
+    string_compare_distance_threshold : 0.5
+    , result_limit: 5
 }

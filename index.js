@@ -253,14 +253,18 @@ function sendGenericMessage(recipientId, elements) {
 function searchDb_pm(text) {
     return new Promise((res, rej) => {
         let feedback = null;
-        let tags = text.split(" ");
-        tags.forEach(t =>{
-            console.log("@@@Tags +=" + t);
-        }); // ok
+        // let tags = text.split(" ");
+        // tags.forEach(t =>{
+        //     console.log("@@@Tags +=" + t);
+        // }); // ok
 
-        Camera.findAllByQueryObject_pm({"tags":tags})
-            .then((cameras) => {
-                res(cameras);
+        Camera.findAndMatchTag_pm(text)
+            .then((data) => {
+                // only show top 5
+                // data is : [{"data":data[i],"distance":distance}]      
+                        
+                res(data);
+
                 // if (cameras.constructor === Array && cameras.length > 0 ) {
                 //     res(cameras);
                 // } else {
