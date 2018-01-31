@@ -36,25 +36,19 @@ module.exports.findAll_pm = () =>{
 module.exports.findAndMatchTag_pm = (tag, distance_threshold) =>{
     // return promise of {"data":data[i],"distance":distance}, or errString
     return new Promise((res, rej) =>{
-
         Camera.find({}, (err, data) =>{
             if(err) rej(vars.msgSomeError);
- 
             if(data.constructor === Array && data.length > 0) { 
                 let _camera_distance_array = [];
                 for(let i=0; i<data.length; i++){      
-                    let distance = lib.evalDistance(data[i].tag, tag);              
+                    let distance = lib.evalDistance(data[i].tag, tag); // vars.string_compare_distance_threshold applied in method               
                     if(distance){
-                        // console.log("@@@camera/findAndMatchTag_pm: new item with distance="+ distance);
                         _camera_distance_array.push({"data":data[i],"distance":distance});
                     }
                 }
                 if(_camera_distance_array.constructor===Array && _camera_distance_array.length > 0){
-                    // console.log("@@@tops begins...");
                     let tops = [];
                     tops = lib.getTops(_camera_distance_array, vars.result_limit); // like the top 5 (lowest ones in distance) 
-                    // console.log("@@@tops: " + tops.length);
-                    // console.log(tops);
                     if(!tops || tops.length == 0 ){
                         rej(vars.msgNoData);
                     }else{
