@@ -51,6 +51,7 @@ module.exports.findAndMatchTag_pm = (tag, distance_threshold) =>{
                     }
                 }
                 if(_camera_distance_array.length > 0){
+                    console.log("@@@Find: _camera_distance_array.length=" + _camera_distance_array.length)
                     res(_camera_distance_array);
                 }else{
                     rej(vars.msgNoData);
