@@ -119,8 +119,8 @@ app.listen(app.get('port'), () => {
 
 function test(){
     console.log(lib.toString())
-    let string1 = "toronto";
-    let string2 = "torontt";
+    let string1 = "401 near dixie rd";
+    let string2 = "401 near dixie rd";
     let result = lib.evalDistance(string1, string2);
     console.log(result);
 }
@@ -156,21 +156,9 @@ function receivedMessage(event) {
         // text
         searchDb_pm(messageText)
             .then(camera_distances => {
-                // [{"data":camera,"distance":distance}]
-                // console.log("@@@cameras size: " + camera_distances.length);
+
                 camera_distances.forEach(item => {
-                    // item: {"data":camera,"distance":distance}
-                    // console.log("@@@!!!item is: ");
 
-                    // console.log(item);
-                    // console.log("@@@!!!item.data is: ");
-
-                    // console.log(item.data);
-                    // console.log("@@@!!!item.data.tag is: ");
-
-                    // console.log(item.data.tag);
-                    // console.log("@@@!!!send camera.url: " + item.data.url);
-                    // console.log("@@@!!!result dis: " + item.distance);
                     let _msg = item.data.tag+" | "+ item.distance + "\n" + item.data.url
                     console.log("@@@!!!_msg is: " + _msg);
 
