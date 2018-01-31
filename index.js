@@ -56,17 +56,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // routes
 app.get('/', function (req, res) {
     let greeting = 'Hi I am a facebookbot, v1: testingVar= ' + testingVar + "\n" + dbConnectionStatus;
-    console.log(greeting)
+    console.log("[O]"+greeting)
     res.send(greeting);
 });
 
 // Facebook
 app.get('/webhook', function (req, res) {
     if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === verify_token) {
-        console.log("Validating webhook");
+        console.log("[O]Validating webhook");
         res.status(200).send(req.query['hub.challenge']); // good
     }
-    console.error("Failed validation. Make sure the validation tokens match.");
+    console.error("[E]Failed validation. Make sure the validation tokens match.");
     res.sendStatus(403).send("Wrong token ~~~~~~~~");
 });
 
@@ -96,7 +96,8 @@ app.post('/webhook', function (req, res) {
                     replyMessageOrPostback(event, null);   // user postback to bot
                 } else {
                     /******************************** to add more events ******************************/
-                    console.log("Webhook received unknown event");//, event);
+                    console.log("[E]Webhook received unknown event");//, event);
+                    console.log(event);
                 }
             });
         });
@@ -110,8 +111,7 @@ app.post('/webhook', function (req, res) {
 });
 
 app.listen(app.get('port'), () => {
-    console.log("running: port", app.get('port'));
-
+    console.log("[O]running: port", app.get('port'));
     // test
     test()
 
@@ -122,7 +122,7 @@ function test(){
     let string1 = "401 near dixie rd";
     let string2 = "401 near dixie rd";
     let result = lib.evalDistance(string1, string2);
-    console.log(result);
+    console.log("[t]test():" + result);
 }
 
 /**
@@ -137,7 +137,7 @@ function receivedMessage(event) {
     let recipientID = event.recipient.id;
     let timeOfMessage = event.timestamp;
     let message = event.message;
-    console.log("Received message for user %d and page %d at %d with message:", senderID, recipientID, timeOfMessage);
+    console.log("[O]Received message for user %d and page %d at %d with message:", senderID, recipientID, timeOfMessage);
     console.log(JSON.stringify(message));
     let messageId = message.mid;
 
@@ -156,12 +156,9 @@ function receivedMessage(event) {
         // text
         searchDb_pm(messageText)
             .then(camera_distances => {
-
                 camera_distances.forEach(item => {
-
                     let _msg = item.data.tag+" | "+ item.distance + "\n" + item.data.url
-                    console.log("@@@!!!_msg is: " + _msg);
-
+                    // console.log("@@@!!!_msg is: " + _msg);
                     sendTextMessage(senderID, _msg);
                 });
                 // replyMessageOrPostback(event, str);
@@ -169,7 +166,6 @@ function receivedMessage(event) {
             .catch(err => {
                 sendTextMessage(senderID, err);
             });
-
     } else if (messageAttachments) {      /******************** to add attachemnt message (non-text type) **********************/
         sendTextMessage(senderID, "Message with attachment received, need to implement to store it in db (url) and server (actual file)");
     }
@@ -209,16 +205,16 @@ function sendButtonMessage(recipientId, messageText, buttons) {
 function replyMessageOrPostback(event, payload = null) {
     let tb, ids;
     if (!payload) {
-        console.log("Received postback for user %d and page %d with payload '%s' " + "at %d", event.sender.id, event.recipient.id, event.postback.payload, event.timestamp);
+        console.log("[O]Received postback for user %d and page %d with payload '%s' " + "at %d", event.sender.id, event.recipient.id, event.postback.payload, event.timestamp);
         payload = event.postback.payload;
     }
-    console.log("@@@PAYLOAD: " + payload);
+    // console.log("@@@PAYLOAD: " + payload);
     sendTextMessage(event.sender.id, "REPLYING MSG: " + payload);
 
 }
 
 function callSendAPI(messageData) {
-    console.log("@@@begin callSendAPI");
+    // console.log("@@@begin callSendAPI");
     request({
         uri: vars.requestUri,
         qs: { access_token: access_token },
@@ -226,18 +222,15 @@ function callSendAPI(messageData) {
         json: messageData
 
     }, function (error, response, body) {
-        console.log("@@@begin callSendAPI => messageData\n");
-        console.log(messageData);
-
+        // console.log("@@@begin callSendAPI => messageData\n");
+        // console.log(messageData);
         if (!error && response.statusCode == 200) {
             var recipientId = body.recipient_id;
             var messageId = body.message_id;
-            console.log("Successfully sent generic message with id %s to recipient %s", messageId, recipientId);
+            console.log("[O]Successfully sent generic message with id %s to recipient %s", messageId, recipientId);
         } else {
-            console.error("Unable to send message.");
-            console.error("@@@begin callSendAPI => response:n");
+            console.error("[E]Unable to send message.");
             console.error(response);
-            console.error("@@@begin callSendAPI => error: \n");
             console.error(error);
         }
     });

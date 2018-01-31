@@ -22,19 +22,16 @@ module.exports.findAll_pm = () =>{
                 reject(vars.msgSomeError)
             }
             if(data.constructor === Array && data.length > 0){
-               
                 resolve(data);
             }else{
                 reject(vars.msgNoData)
             }
-            
         })
-    
     });
 }
 
 module.exports.findAndMatchTag_pm = (tag, distance_threshold) =>{
-    // return promise of {"data":data[i],"distance":distance}, or errString
+    // return promise: {"data":data[i],"distance":distance}, or errString
     return new Promise((res, rej) =>{
         Camera.find({}, (err, data) =>{
             if(err) rej(vars.msgSomeError);
@@ -42,7 +39,7 @@ module.exports.findAndMatchTag_pm = (tag, distance_threshold) =>{
                 let _camera_distance_array = [];
                 for(let i=0; i<data.length; i++){      
                     let distance = lib.evalDistance(data[i].tag, tag); // vars.string_compare_distance_threshold applied in method               
-                    if(distance != null ){// either null or number  // js (0) can be false !!!!
+                    if(distance != null ){// either null or number  // js (0) can be false !!!!, so better explicitly compare with null, and use return null in function for nothing or error
                         _camera_distance_array.push({"data":data[i],"distance":distance}); // so all matched distance standard
                     }
                 }
@@ -54,7 +51,6 @@ module.exports.findAndMatchTag_pm = (tag, distance_threshold) =>{
                     }else{
                         res(tops);
                     }
-                    
                 }else{
                     rej(vars.msgNoData);
                 }
