@@ -160,6 +160,7 @@ function receivedMessage(event) {
                 console.log("@@@cameras size: " + camera_distances.length);
                 camera_distances.forEach(item => {
                     // item: {"data":camera,"distance":distance}
+                    console.log(item);
                     console.log("@@@!!!send camera.url: " + item.data.url);
                     console.log("@@@!!!result dis: " + item.distance);
                     sendTextMessage(senderID,  + item.data.tag + " \n:  " + item.data.url);
