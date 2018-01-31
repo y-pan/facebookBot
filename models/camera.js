@@ -43,7 +43,7 @@ module.exports.findAndMatchTag_pm = (tag, distance_threshold) =>{
                 for(let i=0; i<data.length; i++){      
                     let distance = lib.evalDistance(data[i].tag, tag); // vars.string_compare_distance_threshold applied in method               
                     if(distance){
-                        _camera_distance_array.push({"data":data[i],"distance":distance});
+                        _camera_distance_array.push({"data":data[i],"distance":distance}); // so all matched distance standard
                     }
                 }
                 if(_camera_distance_array.constructor===Array && _camera_distance_array.length > 0){
