@@ -12,7 +12,7 @@ const Camera = module.exports = mongoose.model('camera', CameraSchema);
 
 
 // RULE: 1 - searching in db only 2 kinds of result as promise: data (not empty) or err(exception, or empty data)
- 
+ // 
 
 // find all return as array
 module.exports.findAll_pm = () =>{
