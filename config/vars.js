@@ -12,5 +12,5 @@ module.exports = {
     msgSomeError : "Some error occurred, try again.",
     msgNoData : "No relevant data found",
     string_compare_distance_threshold : 10
-    , result_limit: 3
+    , result_limit: 5
 }
