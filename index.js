@@ -113,8 +113,8 @@ app.post('/webhook', function (req, res) {
 app.listen(app.get('port'), () => {
     console.log("[O]running: port", app.get('port'));
     // test
-    test()
-
+    // test()
+    testTagCoung();
 });
 
 function test(){
@@ -150,6 +150,13 @@ function test(){
     });
     console.log("tc=" + tc);
 
+}
+function testTagCoung(){
+    let array1 = ['401'];
+    let array2 =[ '403', 'hwy 403', 'highway 403', '401', 'hwy 401', 'highway 401' ]
+    let count= lib.getOverlapCountOfArrays(array1, array2);
+    let count2 = lib.getOverlapCountOfArrays(array1, array2);
+    console.log("tagCount="+count + " | " + count2);
 }
 
 /**
