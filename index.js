@@ -218,7 +218,6 @@ function sendTextMessage(recipientId, messageText) {
 }
 
 
-
 function sendButtonMessage(recipientId, messageText, buttons) {
     var messageData = {
         recipient: { id: recipientId },
