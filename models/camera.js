@@ -71,6 +71,8 @@ module.exports.findCameraMatches_pm = (text, distance_threshold) =>{
                             // 2nd check description, calculate distance
                             let distance = lib.evalDistance(des, text); // vars.string_compare_distance_threshold applied in method               
                             _camera_distance_array.push({"data":cam,"tagCount":tagCount,"distance":distance}); // so all matched distance standard
+                            console.log("!!! data[i] has "+tagCount+" tag count! " + data[i])
+
                         }else{
                             console.log("??? data[i] has no tag count? " + data[i])
                         }
