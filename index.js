@@ -124,7 +124,25 @@ function test(){
 
     let result1 = lib.evalDistance(des, text);
     let result2 = lib.evalDistance(des, text);
+
+
     console.log("[t]result1 = " + result1 + ", result2 = " + result2);
+
+    console.log("-------------------------")
+    let tags = ["407","12"];
+    text = "412"
+    let tc = 0;
+    tags.forEach(tag =>{
+        // 404,407 issue
+        let _tag=tag.trim();
+        let idx = text.indexOf(_tag);
+        console.log("in text="+text+" index of _tag=" + _tag + " => " + idx )
+        if(_tag!=null && _tag.length>0 && idx>=0){
+            tc++;
+        }
+    });
+    console.log("tc=" + tc);
+
 }
 
 /**

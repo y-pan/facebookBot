@@ -61,32 +61,18 @@ module.exports.findCameraMatches_pm = (text, distance_threshold) =>{
                     let tagCount = 0; 
 
                     if(tags.constructor === Array && tags.length > 0){
-                        if(des == "404 Near Highway 407"){
-                            console.log("[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]" + des)
-                            console.log("[tags]----------------------------------------")
-                            console.log(tags)
-                        }
-                        
+        
                          // 1st check tags, have to match at least 1 tag
                         tagCount = 0;    
                         tags.forEach(tag =>{
                             // 404,407 issue
-                           
                             let _t=tag.trim();
 
                             if(_t!=null && _t.length>0 && text.indexOf(_t)>=0){
                                 tagCount++;
                             }
-
-                            if(des == "404 Near Highway 407"){
-                                console.log("in forEach: _t="+ _t);
-                                console.log("in forEach: text.indexOf(_t) = " + text.indexOf(_t));
-                                console.log("in forEach: tagCount=" + tagCount);
-                            }
                         });
-                        if(des == "404 Near Highway 407"){
-                            console.log("out forEach: tagCount=" + tagCount);
-                        }
+                 
                         if(tagCount > 0){
                             // 2nd check description, calculate distance
                             let distance = lib.evalDistance(des, text); // vars.string_compare_distance_threshold applied in method               
@@ -103,8 +89,8 @@ module.exports.findCameraMatches_pm = (text, distance_threshold) =>{
 
                 if(_camera_distance_array.constructor===Array && _camera_distance_array.length > 0){
                     let tops = []; // to contain best matches of {"data":cam,"tagCount":tagCount,"distance":distance}
-                    console.log("tagCount > 0 && distance != null => _camera_distance_array:")
-                    console.log(_camera_distance_array)
+               
+                    
                     tops = lib.getByHighestTagCount(_camera_distance_array, vars.result_limit);//vars.result_limit is softLimit, might get more, and will need to further filter
                     if(tops.length > vars.result_limit){
                         // further filtering
