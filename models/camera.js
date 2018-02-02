@@ -43,7 +43,7 @@ module.exports.findCameraMatches_pm = (text, distance_threshold) =>{
     // return promise: {"data":data[i],"distance":distance}, or errString
     return new Promise((res, rej) =>{
         //
-        let inArr = text.split(' ');
+        let inArr = lib.cleanAndSplit(text);
         let matchTags = 0;
 
         //
@@ -63,15 +63,15 @@ module.exports.findCameraMatches_pm = (text, distance_threshold) =>{
                     if(tags.constructor === Array && tags.length > 0){
         
                          // 1st check tags, have to match at least 1 tag
-                        tagCount = 0;    
-                        tags.forEach(tag =>{
-                            // 404,407 issue
-                            let _t=tag.trim();
+                        tagCount = lib.getOverlapCountOfArrays(tags,inArr)
+                        // tags.forEach(tag =>{
+                        //     // 404,407 issue
+                        //     let _t=tag.trim();
 
-                            if(_t!=null && _t.length>0 && text.indexOf(_t)>=0){
-                                tagCount++;
-                            }
-                        });
+                        //     if(_t!=null && _t.length>0 && text.indexOf(_t)>=0){
+                        //         tagCount++;
+                        //     }
+                        // });
                  
                         if(tagCount > 0){
                             // 2nd check description, calculate distance

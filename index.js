@@ -129,8 +129,15 @@ function test(){
     console.log("[t]result1 = " + result1 + ", result2 = " + result2);
 
     console.log("-------------------------")
-    let tags = ["407","12"];
-    text = "412"
+    let tags = [
+        "QEW",
+        "hwy QEW",
+        "highway QEW",
+        "4",
+        "4th",
+        "fourth"
+    ];
+    text = "404 steeles"
     let tc = 0;
     tags.forEach(tag =>{
         // 404,407 issue
