@@ -55,7 +55,7 @@ module.exports.findCameraMatches_pm = (text, distance_threshold) =>{
             if(err) rej(vars.msgSomeError);
             if(data.constructor === Array && data.length > 0) { 
                 // data is camera: {des:des, tags:[tag], url:url }
-                console.log("@@@### filter by array $in: " + data.length);
+                console.log("    @@@### filter by array $in: " + data.length);
 
                 let _camera_distance_array = []; // targets
 
@@ -74,10 +74,10 @@ module.exports.findCameraMatches_pm = (text, distance_threshold) =>{
                             // 2nd check description, calculate distance
                             let distance = lib.evalDistance(des, text); // vars.string_compare_distance_threshold applied in method               
                             _camera_distance_array.push({"data":cam,"tagCount":tagCount,"distance":distance}); // so all matched distance standard
-                            console.log(des + " [tagCount]=> " + tagCount)
+                            console.log("    "+des + " [tagCount]=> " + tagCount)
 
                         }else{
-                            console.log(des + " [no-tagCount !!!]")
+                            console.log("    [no-tagCount]"+des)
                         }
                     }else{
                         continue;
