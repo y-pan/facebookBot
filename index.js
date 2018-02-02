@@ -156,8 +156,9 @@ function receivedMessage(event) {
         // text
         searchDb_pm(messageText)
             .then(camera_distances => {
+                // {"data":cam,"tagCount":tagCount,"distance":distance}
                 camera_distances.forEach(item => {
-                    let _msg = item.data.tag+" | "+ item.distance + "\n" + item.data.url
+                    let _msg = item.data.des+"[c:"+ item.tagCount+ ", d:" + item.distance + "]\n" + item.data.url
                     // console.log("@@@!!!_msg is: " + _msg);
                     sendTextMessage(senderID, _msg);
                 });
@@ -257,9 +258,9 @@ function sendGenericMessage(recipientId, elements) {
 
 
 
-function searchDb_pm(text) {
+function searchDb_pm(text) { // text is already lowercase
     return new Promise((res, rej) => {
-        Camera.findAndMatchTag_pm(text)
+        Camera.findCameraMatches_pm(text)
             .then((data) => {
                 res(data); // get only top 5, as [{"data":camera,"distance":distance}]   
             }).catch((err) => {
