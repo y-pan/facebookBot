@@ -11,6 +11,6 @@ module.exports = {
     
     msgSomeError : "Some error occurred, try again.",
     msgNoData : "No relevant data found",
-    string_compare_distance_threshold : 10
+    string_compare_distance_threshold : 10000   /* not in use, since tagCount is used as 1st(major) filter, distance is used to break the ties   */
     , result_limit: 5
 }

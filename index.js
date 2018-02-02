@@ -119,10 +119,12 @@ app.listen(app.get('port'), () => {
 
 function test(){
     console.log(lib.toString())
-    let string1 = "401 near dixie rd";
-    let string2 = "401 near dixie rd";
-    let result = lib.evalDistance(string1, string2);
-    console.log("[t]test():" + result);
+    let text = "404 407";
+    let des = "404 Near Highway 407";
+
+    let result1 = lib.evalDistance(des, text);
+    let result2 = lib.evalDistance(des, text);
+    console.log("[t]result1 = " + result1 + ", result2 = " + result2);
 }
 
 /**
