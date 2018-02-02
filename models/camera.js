@@ -44,6 +44,10 @@ module.exports.findCameraMatches_pm = (text, distance_threshold) =>{
     return new Promise((res, rej) =>{
         //
         let inArr = lib.cleanStr_lowerCase_split(text);
+        console.log("@@@inArr:" + inArr.length);
+        inArr.forEach(s =>{
+            console.log(s);
+        })
         let matchTags = 0;
 
         //
