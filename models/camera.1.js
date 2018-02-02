@@ -47,13 +47,11 @@ module.exports.findCameraMatches_pm = (text, distance_threshold) =>{
         let matchTags = 0;
 
         //
-        Camera.find({tags:{"$in":inArr}}, (err, data) =>{
+        Camera.find({}, (err, data) =>{
             if(err) rej(vars.msgSomeError);
             if(data.constructor === Array && data.length > 0) { 
                 // data is camera: {des:des, tags:[tag], url:url }
-                console.log("@@@### filter by array $in: " + data.length);
-                console.log(data);
-                
+
                 let _camera_distance_array = []; // targets
 
                 for(let i=0; i<data.length; i++){     
@@ -63,7 +61,7 @@ module.exports.findCameraMatches_pm = (text, distance_threshold) =>{
                     let tagCount = 0; 
 
                     if(tags.constructor === Array && tags.length > 0){
-                       
+        
                          // 1st check tags, have to match at least 1 tag
                         tagCount = lib.getOverlapCountOfArrays(tags,inArr)
                         // tags.forEach(tag =>{
