@@ -81,11 +81,11 @@ module.exports.findCameraMatches_pm = (text, distance_threshold) =>{
                             if(des == "404 Near Highway 407"){
                                 console.log("in forEach: _t="+ _t);
                                 console.log("in forEach: text.indexOf(_t) = " + text.indexOf(_t));
-                                conosle.log("in forEach: tagCount=" + tagCount);
+                                console.log("in forEach: tagCount=" + tagCount);
                             }
                         });
                         if(des == "404 Near Highway 407"){
-                            conosle.log("out forEach: tagCount=" + tagCount);
+                            console.log("out forEach: tagCount=" + tagCount);
                         }
                         if(tagCount > 0){
                             // 2nd check description, calculate distance
