@@ -90,9 +90,11 @@ module.exports.findCameraMatches_pm = (text, distance_threshold) =>{
                         if(tagCount > 0){
                             // 2nd check description, calculate distance
                             let distance = lib.evalDistance(des, text); // vars.string_compare_distance_threshold applied in method               
-                            if(distance != null ){// either null or number  // js (0) can be false !!!!, so better explicitly compare with null, and use return null in function for nothing or error
-                                _camera_distance_array.push({"data":cam,"tagCount":tagCount,"distance":distance}); // so all matched distance standard
-                            }
+                            _camera_distance_array.push({"data":cam,"tagCount":tagCount,"distance":distance}); // so all matched distance standard
+                            
+                            // if(distance != null ){// either null or number  // js (0) can be false !!!!, so better explicitly compare with null, and use return null in function for nothing or error
+                            //     _camera_distance_array.push({"data":cam,"tagCount":tagCount,"distance":distance}); // so all matched distance standard
+                            // }
                         }
                     }else{
                         continue;
